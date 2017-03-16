@@ -1,0 +1,12 @@
+{% extends 'books/first_page.html' %}
+{% load my_markdown %}
+{% block articletitle %}{{ bookname }}{% endblock %}
+{% block articleconent %}
+    {{ bookhtml|safe }}
+    <br><br>
+    {% if signIn %}
+    <div class="authorname"><span>作者：<a href="{% url 'users:about_user' authorname %}">{{authorname}}</a></span></div>
+    {% else %}
+    <div class="authorname"><span>作者：<a href="">{{authorname}}</a></span></div>
+    {% endif %}
+{% endblock %}

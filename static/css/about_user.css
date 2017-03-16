@@ -1,0 +1,175 @@
+.fl{
+  float: left;
+}
+
+.fr{
+  float: right;
+}
+
+.clearfix:before,.clearfix:after{
+  content: '';
+  display: table;
+}
+.clearfix:after{
+  clear:both;
+}
+.clearifx{
+  zoom:1;
+}
+
+
+.main{
+  width: 100%;
+  /*height: 614px;*/
+}
+
+.main-container{
+  width: 727px;
+  margin:0 auto;
+  padding-top: 30px;
+}
+
+.subhead-head{
+  padding-bottom: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-bottom: 1px #e1e4e8 solid;
+}
+
+.subhead{
+  padding-bottom: 8px;
+  margin-left: 10px;
+  margin-right: 10px;
+  border-bottom: 1px #e1e4e8 solid;
+}
+
+.subhead-heading {
+    font-size: 24px;
+    font-weight: normal;
+}
+
+.userarticle{
+  margin-top: 15px;
+}
+
+.profile-picture{
+  padding-left: 20px;
+  width: 33.3%;
+  float: left;
+}
+
+.profile-picture .form-group dd{
+  text-align: center;
+}
+
+.avatar {
+    display: inline-block;
+    overflow: hidden;
+    line-height: 1;
+    vertical-align: middle;
+    border-radius: 3px;
+    height: 200px;
+    width: 200px;
+}
+
+.public-profile{
+    width: 66.6%;
+    display: block;
+    float: left;
+    padding-left: 40px;
+    padding-right: 10px;
+}
+
+.public-profile dd span,.public-profile span a{
+  width: 100px;
+  height: 21px;
+  font:normal 16px/21px 'Microsoft Yahei';
+  color: #666;
+  text-indent: 2em;
+}
+
+.public-profile span a{
+  color: #0366d6;
+}
+
+
+.form-group{
+  margin: 15px 0;
+  display: block;
+}
+
+.form-group dt{
+  margin: 0 0 6px;
+}
+
+.form-group dd{
+  display: block;
+  margin-left: 0;
+}
+
+.form-group span{
+  line-height: 21px;
+  font:bold 16px/21px 'Microsoft Yahei';
+}
+
+
+
+.pinned-repos-list{
+  width: 727px;
+  /*height: 471px;*/
+  list-style: none;
+  padding: 0px;
+}
+
+
+.pinned-repos-list .pinned-repo-item{
+  display: inline-block;
+  width: 359px;
+  height: 141px;
+  padding: 16px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  margin-right: 2px;
+}
+
+.pinned-repo-item .pinned-repo-item-content{
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+  width: 325px;
+  height: 107px;
+}
+
+.pinned-repo-item-content .d-block{
+  padding: 0px;
+  margin: 0px;
+  width: 325px;
+  height: 21px;
+}
+
+.pinned-repo-item-content .d-block a{
+  font: bold 16px/21px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.d-block-text-gray{
+  width: 325px;
+  height: 18px;
+  padding: 0px;
+  margin: 0px 0px 8px 0px;
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #586069;
+}
+
+.d-block-text-gray a{
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.pinned-repo-desc{
+  width: 325px;
+  height: 36px;
+  margin: 8px 0 16px 0px;
+  font: normal 12px/36px 'Microsoft Yahei';
+}

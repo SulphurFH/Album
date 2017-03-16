@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Album Papers</title>
+        <meta name="author" content="FangHao">
+        {% load static from staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/wirte_mobile.css' %}">
+        <script type="text/javascript" src="{% static 'js/showdown.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/set_root.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/wirtearticle.js' %}"></script>
+    </head>
+    <body>
+    <div class="main_wapper">
+        <form action="" method="POST" id="form">
+        {% csrf_token %}
+            <div class="center_con">
+                <div class="wirtearea">
+                    <input type="text" name= "arttitle" class="arttitle" placeholder="请输入文章标题" autofocus value="{{title}}">
+                    <textarea name="content" id="content" class="artarea" onkeyup="markdown()" placeholder="请输入文章正文">{{text}}{{content}}</textarea>
+                </div>
+                <div class="resultarea" id="result"></div>      
+            </div>
+            <div class="footer">
+                <ul>
+                    <li>
+                      <a href="{%url 'users:index'%}"></a>
+                      <p>Discover</p>
+                    </li>
+                    <li>
+                      <button class="btn-save" type="submit" id="save"></button>
+                      <p>保存</p>
+                    </li>
+                    <li>
+                      <button class="btn-submit" type="submit" id="submit"></button>
+                      <p>发布</p>
+                    </li>
+                    <li>
+                      <a href="{%url 'users:index'%}"></a>
+                      <p>返回</p>
+                    </li>
+                </ul>
+            </div>
+        </form>
+    </div>
+    {% if noTitle %}
+    <div class="pop">
+        <div class="mask">
+        </div>
+        <div class="mask-info">
+            <span class="mask-title">请输入标题</span>
+        </div>
+    </div>
+    {% endif %}
+
+    {% if longTitle %}
+    <div class="pop">
+        <div class="mask">
+        </div>
+        <div class="mask-info">
+            <span class="mask-title">标题不能超过40字符</span>
+        </div>
+    </div>
+    {% endif %}    
+
+    </body>
+</html>

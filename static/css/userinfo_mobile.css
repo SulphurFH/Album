@@ -1,0 +1,233 @@
+/*---------------------------------*\
+   Base
+\*---------------------------------*/
+
+body,ul,ol,input,h1,h2,h3,h4,h5,h6,select,p,dl,dd,form{
+	margin: 0px;
+	padding: 0px;
+}
+
+ul,ol{
+	list-style: none;
+}
+
+a{
+	text-decoration: none;
+}
+
+em{
+	font-style: normal;
+}
+
+h1,h2,h3,h4,h5,h6{
+	font-size: 100%;
+	font-weight: normal;
+}
+
+img{
+	border: 0px;
+}
+
+.clearfix:before,.clearfix:after{
+	content: '';
+	display: table;
+}
+.clearfix:after{
+	clear:both;
+}
+.clearifx{
+	zoom:1;
+}
+
+.fl{
+	float: left;
+}
+
+.fr{
+	float: right;
+}
+
+.main_wapper{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	background-color: #ddd;
+}
+
+.header{
+	height: 4.5rem;
+	margin: 0.5rem 0 1rem;
+	background-color: #474d57;
+	position: relative;
+}
+
+.header a{
+	display: block;
+	width: 100%;
+	height: 4.5rem;
+}
+
+.header a img{
+	float: left;
+	width: 4rem;
+	height: 4rem;
+	margin:0.25rem 0 0 1rem;
+	border-radius: 2rem;
+}
+
+.header .icon{
+	position: absolute;
+	right: 0.25rem;
+	top: 1.25rem;
+	width: 2rem;
+	height: 2rem;	
+	background: url(../images/icons.png) 0.1rem -4.7rem no-repeat;
+  	background-size: 2.5rem 25.0rem;
+}
+
+.header .username{
+	float: left;
+	height: 2rem;
+	margin: 0.5rem 0 0 1rem;
+	font: normal 18px/2rem 'Microsoft Yahei';
+	color: #ddd;
+}
+
+.header .email{
+	float: left;
+	height: 0.7rem;
+	margin: 0 0 0 1rem;
+	font: normal 16px/0.7rem 'Microsoft Yahei';
+	color: #ddd;
+}
+
+.center_con{
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 6rem;
+	bottom: 3rem;
+	overflow: auto;
+	background-color: #fff;
+}
+
+.center_nav{
+	height: 2rem;
+	border-bottom: 1px solid #d1d5da;
+}
+
+.underline-nav-item{
+  display: inline-block;
+  border-bottom: 2px solid #e36209;
+  margin: 0 0 0 0.5rem;
+  height: 2rem;
+  text-align: center;
+  line-height: 2rem;
+  font:normal 18px/2rem 'Microsoft Yahei';
+}
+
+.js-pinned-repos-reorder-container{
+	width: 100%;
+}
+
+.text-normal-h2{
+  /*width: 727px;*/
+  height: 1.6rem;
+  margin: 0px 0px 0.2rem 0.5rem;
+  font: normal 16px/1.6rem 'Microsoft Yahei';
+  color: #000;
+}
+
+.pinned-repo-item{
+  display: inline-block;
+  width: 16.0rem;
+  height: 141px;
+  padding: 16px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  margin: 0 0.5rem 0.5rem 0.5rem;
+}
+
+.pinned-repo-item-content .d-block{
+  padding: 0px;
+  margin: 0px;
+  /*width: 325px;*/
+  height: 0.525rem;
+}
+
+.pinned-repo-item-content .d-block a{
+  font: bold 16px/21px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.d-block-text-gray{
+  width: 325px;
+  height: 18px;
+  padding: 0px;
+  margin: 0px 0px 8px 0px;
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #586069;
+}
+
+.d-block-text-gray a{
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.pinned-repo-desc{
+  width: 325px;
+  height: 36px;
+  margin: 8px 0 16px 0px;
+  font: normal 12px/36px 'Microsoft Yahei';
+}
+
+.footer{
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	height: 2.5rem;
+	background-color: #474d57;
+}
+
+.footer li{
+  float: left;
+  width: 25%;
+  height:2.5rem;
+}
+
+.footer .notSignIn li{
+  float: left;
+  width: 50%;
+  height:3rem;
+}
+
+.footer a{
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin:0.4rem auto 0;
+  background: url(../images/icons.png) 0.1rem top no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer li:nth-child(2) a{
+  background-position:left -15rem;
+}
+
+.footer li:nth-child(3) a{
+  background-position:0.15rem -2.5rem;
+}
+
+.footer li:nth-child(4) a{
+  background-position:0.15rem -17.5rem;
+}
+
+.footer ul li p{
+  display: block;
+  font:normal 14px/14px 'Microsoft Yahei';
+  color:#ddd;
+  text-align:center;
+}

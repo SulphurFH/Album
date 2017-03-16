@@ -1,0 +1,162 @@
+/*---------------------------------*\
+   Base
+\*---------------------------------*/
+* {
+  box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font: 100 16px/1.5 Avenir, sans-serif;
+  overflow: hidden; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,li,p,a{
+  margin:0;
+  padding: 0;
+}
+
+ul,li{
+  list-style: none;
+}
+
+.main_wapper{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.center_con{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 3.0rem;
+  overflow: auto;
+}
+
+/*---------------------------------*\
+   Posts List
+\*---------------------------------*/
+.posts-list {
+  width: 100%;
+  height: 100%;
+  background: rgba(250, 250, 250, 0.95);
+  border-right: 1px solid #e5e8ec;
+  float: left;
+  position: relative;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -o-user-select: none;
+  user-select: none; }
+
+.search-form {
+  width: 100%;
+  height: 1.425rem;
+  border-bottom: 1px solid #e5e8ec; }
+
+.search-input {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 1.0rem 0;
+  color: #474d57;
+  font-size: 18px;
+  font-family: inherit;
+  font-style: italic;
+  background: #f7f7f7;
+  border: none;
+  outline: none;
+  appearance: none;
+}
+
+.pl__container {
+  padding-top: 0.175rem;
+  padding-bottom: 0.25rem;
+  color: #64717f;
+  text-shadow: -1px 1px 0 rgba(125, 139, 153, 0.1);
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: absolute;
+  top: 3.5rem;
+  bottom: 0;
+  left: 0;
+  right: -1px;}
+
+.pl__all {
+  margin: 4px 0;
+  padding: 4px 8px 3px;
+  display: block; }
+
+.pl__circle {
+  width: .75em;
+  height: .75em;
+  margin-right: 5px;
+  background: #9aa4af;
+  border: 2px solid #9aa4af;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.pl__date {
+  color: #9aa4af;
+  font-size: 14px;
+  float: right; 
+}
+
+.footer{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2.5rem;
+  background-color: #474d57;
+}
+
+.footer li{
+  float: left;
+  width: 25%;
+  height:2.5rem;
+}
+
+.footer .notSignIn li{
+  float: left;
+  width: 50%;
+  height:2.5rem;
+}
+
+.footer a{
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin:0.4rem auto 0;
+  background: url(../images/icons.png) 0.1rem top no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer li:nth-child(2) a{
+  background-position:left -15rem;
+}
+
+.footer li:nth-child(3) a{
+  background-position:0.15rem -2.5rem;
+}
+
+.footer li:nth-child(4) a{
+  background-position:0.15rem -12.5rem;
+}
+
+.footer ul li p{
+  display: block;
+  font:normal 14px/14px 'Microsoft Yahei';
+  color:#ddd;
+  text-align:center;
+}

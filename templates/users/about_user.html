@@ -1,0 +1,138 @@
+{% extends 'users/base.html' %}
+{% block title %}Album Papers{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+<link href="{% static 'css/about_user.css' %}" rel="stylesheet">
+{% endblock %}
+<body>
+{% block body %}
+ 	{% block nav %}
+	<div class="navbar navbar-default navbar-fixed-top" id="navbar-fixed-top" >
+	  <div class="container">
+	    <div class="navbar-header">
+	      <span class="navbar-brand">Hello！{{username}}</span>
+	    </div>
+	    <div id="navbar" class="navbar-collapse collapse">
+	      <ul class="nav navbar-nav" id="user-navbar-nav">
+	      {% block navbar %}
+	        <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
+	        <li class="active"><a href="{% url 'books:wirte_article' %}">写文章</a></li>
+	        <li class="active"><a href="javascript:history.back()">返回</a></li>
+	      {% endblock %}
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+    {% endblock %}
+	<div class="main">
+		<div class="main-container">
+			<div class="col-9 clearfix">
+				<div class="userinfo clearfix">
+					<div class="subhead-head">
+						<h2 class="subhead-heading">个人资料</h2>
+					</div>
+					<div class="profile-picture">
+						<dl class="form-group">
+							<dt>
+								<img class="avatar" src="/static/media/avatar/{{checkuser}}.jpg" alt="{{checkuser}}头像">
+							</dt>
+							<dd>
+								<span>{{checkuser}}</span>
+							</dd>
+						</dl>
+					</div> 
+					<div class="public-profile">
+						<dl class="form-group">
+						<dt>
+							<span>用户名</span>
+						</dt>
+						<dd>
+							<span>{{checkuser}}</span>
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>性别</span>
+						</dt>
+						<dd>
+						{% if checkuserinfo.gender %}
+							<span>男</span>
+						{% else %}
+							<span>女</span>
+						{% endif %}
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>邮箱</span>
+						</dt>
+						<dd class="form-group-dd">
+						{% if checkuserinfo.ispublicemail %}
+							<span>{{checkuserinfo.email}}</span>
+						{% else %}
+							<span>该用户已隐藏邮箱</span>
+						{% endif %}
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>关于你</span>
+						</dt>
+						<dd>
+							<span>{{checkuserinfo.about}}</span>
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>URL</span>
+						</dt>
+						<dd>
+							<span><a href="{{url}}">{{checkuserinfo.url}}</a></span>
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>公司</span>
+						</dt>
+						<dd>
+							<span>{{checkuserinfo.campany}}</span>
+						</dd>
+						</dl>
+						<dl class="form-group">
+						<dt>
+							<span>地址</span>
+						</dt>
+						<dd>
+							<span>{{checkuserinfo.address}}</span>
+						</dd>
+						</dl>
+					</div>
+				</div>
+				<div class="userarticle clearfix">
+					<div class="subhead">
+					{% if checkuserinfo.gender %}
+						<h2 class="subhead-heading">他的文章</h2>
+					{% else %}
+						<h2 class="subhead-heading">她的文章</h2>
+					{% endif %}
+					</div>
+					<ol class="pinned-repos-list">
+	    				{% for book in bookinfo %}
+	    					<li class="pinned-repo-item">
+	    						<span class="pinned-repo-item-content">
+	    							<span class="d-block">
+	    								<a href="{%url 'books:detail' book.id %}">{{book.btitle|slice:"20"}}</a>
+	    							</span>
+	    							<p class="d-block-text-gray">Forked from <a href="{% url 'users:about_user' checkuser %}">{{checkuser}}</a></p>
+									<p class="pinned-repo-desc">{{book.bcontent|slice:"25"}}...</p>
+	    						</span>
+	    					</li>
+	    				{% endfor %}
+					<ol>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+</body>

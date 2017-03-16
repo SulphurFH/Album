@@ -1,0 +1,212 @@
+/*---------------------------------*\
+   Base
+\*---------------------------------*/
+* {
+  box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font: 100 16px/1.5 Avenir, sans-serif;
+  overflow: hidden; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,li,p,a,input,textarea{
+  margin:0;
+  padding: 0;
+}
+
+ul,li{
+  list-style: none;
+}
+
+.main_wapper{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+.center_con{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 2.5rem;
+  overflow: auto;
+}
+
+pre {
+    padding: 1em;
+    font: .9em/1.5 Consolas, Monaco, 'Andale Mono', monospace;
+    border: 1px solid #e5e8ec;
+    border-radius: 3px;
+    background-color: #fdfdfd;
+    background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-size: 3em 3em;
+    background-origin: content-box;
+    overflow: auto;
+}
+
+textarea{
+    float: left;
+    width: 100%;
+    outline: none;
+    border: 0px;
+    background-color: #ddd;
+}
+
+.wirtearea{
+    position: relative;
+    float: left;
+    width: 50%;
+    height: 100%;    
+}
+
+.arttitle{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 24.5rem;
+    outline: none;
+    border: 0px;
+    background-color: #ddd;
+    /*border-bottom: 1px solid red;*/
+}
+
+.artarea{
+    position: absolute;
+    width: 100%;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 24.5rem;
+    outline: none;
+    border: 0px;
+    background-color: #ddd;
+}
+
+.resultarea{
+    position: relative;
+    float: right;
+    width: 50%;
+    height: 100%
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    width: 50%;
+    overflow: auto;
+    border-left: 1px solid #474d57;
+    box-sizing: border-box;
+}
+
+.footer{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 2.5rem;
+  background-color: #474d57;
+}
+
+.footer li{
+  float: left;
+  width: 25%;
+  height:2.5rem;
+}
+
+.footer .notSignIn li{
+  float: left;
+  width: 50%;
+  height:2.5rem;
+}
+
+.footer a{
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin:0.4rem auto 0;
+  background: url(../images/icons.png) 0.1rem top no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer li:nth-child(2) a{
+  background-position:left -20.0rem;
+}
+
+.footer li:last-child a{
+  background-position:0.15rem -17.5rem;
+}
+
+.footer .btn-submit,.footer .btn-save{
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin:0.4rem auto 0;
+  border: 0px;
+  background: url(../images/icons.png) 0.1rem -15rem no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer .btn-save{
+  background: url(../images/icons.png) left -20.0rem no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer ul li p{
+  display: block;
+  font:normal 14px/14px 'Microsoft Yahei';
+  color:#ddd;
+  text-align:center;
+}
+
+
+
+.pop{
+    /*display: none;*/
+}
+
+.mask{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.5;
+    z-index: 9998;
+}
+
+.mask-info{
+    position: fixed;
+    width: 200px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -40px;
+    z-index: 9999;
+    background-color: #474d57;
+    border:1px solid #333;
+    text-align: center;
+}
+
+.mask-info:hover{
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+}
+
+.mask-info span{
+    font:normal 18px/80px 'Microsoft Yahei';
+    color: #ddd;
+}

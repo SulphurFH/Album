@@ -1,0 +1,48 @@
+{% extends 'books/base.html' %}
+{% block title %}Album Papers{% endblock %}
+{% block content %}
+  <div id="sidebar">
+    <div id="tags">
+      {% if signIn %}
+        {% if avatarExist %}
+          <a href="{% url 'users:userinfo' username %}" id="avatar" style="background-image:url(/static/media/avatar/{{username}}.jpg)"></a>
+        {% else %}
+          <a href="{% url 'users:userinfo' username %}" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
+        {% endif %}
+      {% else %}
+      <a href="{% url 'users:signin' %}" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
+      {% endif %}
+      <ul id="tags__ul">
+      <li id="pl__all" class="tags__li tags-btn active"><a href="{% url 'users:index' %}">所有文章</a></li>
+      {% if signIn %}
+      <li id="exit" class="tags__li tags-btn"><a href="{%url 'users:logout'%}">退出</a></li>
+      <!-- <li id="exit" class="tags__li tags-btn"><a href="/accounts/logout/">退出</a></li> -->
+      {% else %}
+      <li id="exit" class="tags__li tags-btn"><a href="{%url 'users:signin'%}">登录</a></li>
+      <li id="exit" class="tags__li tags-btn"><a href="{%url 'users:register'%}">注册</a></li>
+      {% endif %}
+      </ul>
+    </div>
+    <div id="posts-list">
+      <form action="/search" method="GET" id="search-form" target="_blank">
+        <input id="search-input" type="text" placeholder="Search..." name="q">
+        <!-- <input type="submit" value="查询"> -->
+      </form>
+      <div id="pl__container">
+        {% for book in bookslist %}
+        <a class="技术 pl__all" href="{%url 'books:detail' book.id %}"><span class="pl__circle"></span><span class="pl__title">{{ book.btitle|slice:"10" }}</span><span class="pl__date">{{ book.bpub_date }}</span></a>
+        {% endfor %}
+      </div>
+    </div> 
+  </div> 
+  <div id="post">
+    <div id="pjax">
+      <article id="post__content">
+      <h1 id="post__title" data-identifier="20150306">{% block articletitle %}关于本站{% endblock %}</h1>
+      <p style="text-indent: 2em;">{% block articleconent %}目前考虑主要将自己在学习方面的笔记（不仅限于Python、前端等）放到记到这里~至于后期还没想好，抽时间慢慢完善功能吧：）{% endblock %}</p>
+      </article>
+    </div>
+  </div>
+  <button id="js-fullscreen"><span id="icon-arrow" class="fontello"></span></button>
+<script src="/static/js/script.js"></script>
+{% endblock %}

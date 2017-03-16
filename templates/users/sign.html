@@ -1,0 +1,35 @@
+{% extends 'users/base.html' %}
+{% block title %}登录{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <form class="form-signin" action="{%url 'users:login_handle'%}" method="POST">{% csrf_token %}
+        <div class="title">
+        <h1 class="form-signin-heading">Album Papers</h1>
+        </div>
+        <div class="register-title">
+        {% if notExistEmail %}
+        <h3>邮箱地址不存在</h3>
+        {% endif %}
+        {% if worngPasswd %}
+        <h3>密码错误</h3>
+        {% endif %}
+        {% if notActive %}
+        <h3>账户已失效</h3>
+        {% endif %}
+        {% if registersucess %}
+        <h3>注册成功</h3>
+        {% endif %}
+      </div>
+        <input type="username" id="inputEmail" class="form-control" name="email" placeholder="请输入邮箱地址" required autofocus>
+        <input type="password" id="inputPassword" class="form-control" name="passwd" placeholder="请输入密码" required>
+        <div class="checkbox">
+          <label class="hrefRegister">
+          	<a href="{%url 'users:register'%}">没有账号？</a>
+          </label>
+        </div>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
+      </form>
+
+    </div> <!-- /container -->
+{% endblock %}

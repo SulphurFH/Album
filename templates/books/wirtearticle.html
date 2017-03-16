@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <title>Album Papers</title>
+        <meta name="author" content="FangHao">
+        {% load static from staticfiles %}
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" />
+        <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/wirte.css' %}">
+        <script type="text/javascript" src="{% static 'js/showdown.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+        <script type="text/javascript" src="{% static 'js/wirtearticle.js' %}"></script>
+    </head>
+    <body>
+
+        <form action="" method="POST" id="form">
+        {% csrf_token %}
+            <div class="navbar navbar-default navbar-fixed-top">
+                  <div class="container">
+                    <div class="navbar-header">
+                      <span class="navbar-brand" href="#">Hello! {{username}}</span>
+                    </div>
+                    <div id="navbar" class="navbar-collapse collapse">
+                      <ul class="nav navbar-nav">
+                        <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
+                        <li class="active"><button type="submit" id="save">保存</button></li>
+                        <li class="active"><button type="submit" id="submit">发布</button></li>
+                        <li class="active"><a href="{% url 'books:my_article' %}">我的文章</a></li>
+                        <li class="active"><a href="{% url 'users:userinfo' username %}">返回</a></li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+            <div class="container-write" id="container-write">
+                    <!-- 文本输入区 -->
+                    <div class="wirtearea">
+                        <input type="text" name= "arttitle" class="arttitle" id="arttitle" placeholder="请输入文章标题" autofocus autocomplete="off"
+                        value="{{title}}">
+                        <textarea name="content" id="content" onkeyup="markdown()" placeholder="请输入文章正文">{{text}}{{content}}</textarea>
+                    </div>
+                    <!-- markdown展示区 -->
+                    <div class="resultarea" id="result"></div> 
+            </div>
+        </form>
+
+        {% if noTitle %}
+        <div class="pop">
+            <div class="mask">
+            </div>
+            <div class="mask-info">
+                <span class="mask-title">请输入标题</span>
+            </div>
+        </div>
+        {% endif %}
+
+        {% if longTitle %}
+        <div class="pop">
+            <div class="mask">
+            </div>
+            <div class="mask-info">
+                <span class="mask-title">标题不能超过40字符</span>
+            </div>
+        </div>
+        {% endif %}
+    </body>
+</html>

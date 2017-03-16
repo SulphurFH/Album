@@ -1,0 +1,150 @@
+/*---------------------------------*\
+   Base
+\*---------------------------------*/
+* {
+  box-sizing: border-box; }
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  font: 100 16px/1.5 Avenir, sans-serif;
+  overflow: hidden; }
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+ul,li,p,a{
+  margin:0;
+  padding: 0;
+}
+
+ul,li{
+  list-style: none;
+}
+
+
+
+.main_wapper{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+
+
+.center_con{
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 3.0rem;
+  overflow: auto;
+}
+
+.post__title {
+  margin: 0;
+  padding-top: 1.1rem;
+  font-size: 2rem; }
+
+.post__content{
+  width: 100%;
+}
+
+.post__content > p, .post__content > ul, .post__content > ol {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem; }
+.post__content > ol > li {
+  margin: .5rem 0; }
+.post__content li > p {
+  margin: 0; }
+.post__content a {
+  color: #7d8b99;
+  word-break: break-all; }
+
+/*---------------------------------*\
+   code block
+\*---------------------------------*/
+
+pre {
+  padding: 1rem;
+  margin-left: 1.5rem;
+  margin-right: 0.5rem;
+  font: .8rem/1.5 Consolas, Monaco, 'Andale Mono', monospace;
+  border: 1px solid #e5e8ec;
+  border-radius: 3px;
+  background-color: #fdfdfd;
+  background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+  background-size: 3rem 3rem;
+  background-origin: content-box;
+  overflow: auto;}
+
+strong {
+  font-weight: 600; }
+
+blockquote {
+  margin: 1.5rem 0 1.5rem 2rem;
+  padding-left: .5rem;
+  border-left: 5px solid #e5e8ec; }
+
+kbd {
+  padding: .2em .3em .1em;
+  font-size: .75em;
+  font-family: Consolas, Monaco, 'Andale Mono', monospace;
+  background: white;
+  border-color: #fbfaf9 #f0eeed #e1dfdf;
+  border-width: .25em .3em .4em;
+  border-style: solid;
+  border-radius: .25em;
+  vertical-align: .3em; }
+
+.authorname{
+  margin-right: 20px;
+  text-align: right;
+}
+
+.footer{
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 3rem;
+  background-color: #474d57;
+}
+
+.footer li{
+  float: left;
+  width: 25%;
+  height:3rem;
+}
+
+.footer a{
+  display: block;
+  width: 1.4rem;
+  height: 1.4rem;
+  margin:0.4rem auto 0;
+  background: url(../images/icons.png) 0.1rem top no-repeat;
+  background-size: 2.5rem 25.0rem;
+}
+
+.footer li:nth-child(2) a{
+  background-position:left -15rem;
+}
+
+.footer li:nth-child(3) a{
+  background-position:0.15rem -2.5rem;
+}
+
+.footer li:nth-child(4) a{
+  background-position:0.15rem -17.5rem;
+}
+
+.footer ul li p{
+  display: block;
+  font:normal 14px/14px 'Microsoft Yahei';
+  color:#ddd;
+  text-align:center;
+}

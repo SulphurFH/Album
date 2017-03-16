@@ -1,0 +1,51 @@
+{% extends 'books/base_modile.html' %}
+{% block title %}Album Papers{% endblock %}
+{% block content %}
+  <div class="main_wapper">
+    <div class="center_con">
+        <div class="posts-list">
+          <form action="" method="GET" id="search-form">
+            <input class="search-input" type="text" placeholder="Search..." >
+          </form>
+          <div class="pl__container">
+            {% for book in bookslist %}
+            <a class="pl__all" href="{%url 'books:detail' book.id %}"><span class="pl__circle"></span><span class="pl__title">{{ book.btitle|slice:"15" }}</span><span class="pl__date">{{ book.bpub_date }}</span></a>
+            {% endfor %}
+          </div>
+        </div>
+    </div>
+    <div class="footer">
+    {% if signIn %}
+      <ul>
+        <li>
+          <a href="{%url 'users:index'%}"></a>
+          <p>Discover</p>
+        </li>
+        <li>
+          <a href="{% url 'books:wirte_article' %}"></a>
+          <p>写文章</p>
+        </li>
+        <li>
+          <a href="{% url 'users:userinfo' username %}"></a>
+          <p>我的</p>
+        </li>
+        <li>
+          <a href="{% url 'users:logout' %}"></a>
+          <p>退出</p>
+        </li>
+      </ul>
+    {% else %}
+      <ul class="notSignIn">
+        <li>
+          <a href="{% url 'users:signin' %}"></a>
+          <p>登录</p>
+        </li>
+        <li>
+          <a href="{% url 'users:register' %}"></a>
+          <p>注册</p>
+        </li>
+      </ul>
+    {% endif %}
+    </div>
+  </div>
+{% endblock %}

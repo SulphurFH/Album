@@ -1,0 +1,134 @@
+pre {
+    padding: 1em;
+    font: .9em/1.5 Consolas, Monaco, 'Andale Mono', monospace;
+    border: 1px solid #e5e8ec;
+    border-radius: 3px;
+    background-color: #fdfdfd;
+    background-image: -webkit-linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-image: -moz-linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-image: -ms-linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-image: -o-linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-image: linear-gradient(transparent 50%, rgba(69, 142, 209, 0.04) 50%);
+    background-size: 3em 3em;
+    background-origin: content-box;
+    overflow: auto;
+    -webkit-overflow-scrolling: touch; }
+        pre::-webkit-scrollbar {
+            height: 7px; }
+        pre::-webkit-scrollbar-thumb {
+            background: #e5e8ec; }
+        pre::-webkit-scrollbar-thumb:hover {
+            background: #d6dbe1; 
+}
+
+textarea{
+    float: left;
+    width: 100%;
+    outline: none;
+    border: 0px;
+    background-color: #ddd;
+}
+
+.arttitle{
+    float: left;
+    width: 100%;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    outline: none;
+    border: 0px;
+    background-color: #ddd;
+}
+
+.container-write{
+    width: 100%;
+}
+
+
+
+.resultarea{
+    float: right;
+    width: 50%;
+    overflow: auto;
+    border-left: 1px solid #474d57;
+}
+
+.wirtearea{
+    width: 50%;
+    float: left;
+}
+
+.navbar button{
+    padding-top: 0px;
+    padding-bottom: 0px;
+    padding: 0px 20px;
+    height: 64px;
+    color: #ddd;
+    background-color: #474d57;
+    line-height: 64px;
+    font-size: 20px;
+    border: 0px;
+}
+
+@media(max-width: 769px){
+    .navbar button{
+        height: 37px;
+        font-size: 10px;
+        line-height: 37px;
+        padding:0 15px;
+        /*background-color: #474d57;*/
+    }
+}
+
+.navbar button:hover{
+    background-color: #ddd;
+    color: #474d57;
+}
+
+@media(max-width: 769px){
+    .navbar button:hover{
+        background-color: #474d57;
+        color: #ddd;
+    }
+}
+
+
+.pop{
+    /*display: none;*/
+}
+
+.mask{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.5;
+    z-index: 9998;
+}
+
+.mask-info{
+    position: fixed;
+    width: 200px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -40px;
+    z-index: 9999;
+    background-color: #474d57;
+    border:1px solid #333;
+    text-align: center;
+}
+
+.mask-info:hover{
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+}
+
+.mask-info span{
+    font:normal 18px/80px 'Microsoft Yahei';
+    color: #ddd;
+}

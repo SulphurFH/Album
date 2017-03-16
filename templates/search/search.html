@@ -1,0 +1,48 @@
+{% extends 'users/base.html' %}
+{% block title %}Album Papers{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+<link href="{% static 'css/search.css' %}" rel="stylesheet">
+{% endblock %}
+<body>
+{% block body %}
+ 	{% block nav %}
+	<div class="navbar navbar-default navbar-fixed-top" id="navbar-fixed-top" >
+	  <div class="container">
+	    <div id="navbar" class="navbar-collapse collapse">
+	      <ul class="nav navbar-nav" id="user-navbar-nav">
+	      {% block navbar %}
+	        <li class="active"><a href="{% url 'users:index' %}" class="search-navbar-a">Discover</a></li>
+	      {% endblock %}
+	      </ul>
+	    </div>
+	  </div>
+	</div>
+    {% endblock %}
+	<div class="main">
+		<div class="main-container">
+			<div class="userarticle clearfix">
+				<div class="search">
+					<span class="search-heading">检索结果</span>
+				</div>
+				<ol class="pinned-repos-list">
+    				{% for result in page.object_list %}
+    					<li class="pinned-repo-item">
+    						<span class="pinned-repo-item-content">
+    							<span class="d-block">
+    								<a href="{%url 'books:detail' result.object.id %}">{{result.object.btitle|slice:"100"}}</a>
+    							</span>
+    							<p class="d-block-text-gray">Forked from <a href="{% url 'users:about_user' result.object.bauthor %}">{{result.object.bauthor}}</a></p>
+								<p class="pinned-repo-desc">{{result.object.bcontent}}</p>
+    						</span>
+    					</li>
+    				{% empty %}
+    				<p>No results found.</p>
+    				{% endfor %}
+				<ol>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+</body>

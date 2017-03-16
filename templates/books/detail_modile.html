@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <title>Album Papers</title>
+        {% load static from staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'css/detail_modile.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'css/codehilite.css' %}">
+        <script type="text/javascript" src="{% static 'js/set_root.js' %}"></script>
+    </head>
+    <body>
+	    <div class="main_wapper">
+		    <div class="center_con">
+		      <article class="post__content">
+			      <h1 class="post__title" data-identifier="20150306">{{ bookname }}</h1>
+			      <p style="text-indent: 2rem;">
+			      	{{ bookhtml|safe }}
+			    	<br><br>
+			    	<div class="authorname"><span>作者：{{authorname}}</span></div>
+			      </p>
+		      </article>
+		    </div>
+		    <div class="footer">
+		    	<ul>
+			        <li>
+			          <a href="{%url 'users:index'%}"></a>
+			          <p>Discover</p>
+			        </li>
+			        <li>
+			          <a href="{% url 'books:wirte_article' %}"></a>
+			          <p>写文章</p>
+			        </li>
+			        <li>
+			          <a href="{% url 'users:userinfo' username %}"></a>
+			          <p>我的</p>
+			        </li>
+			        <li>
+			          <a href="javascript:history.back()"></a>
+			          <p>返回</p>
+			        </li>
+  				</ul>
+		    </div>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,15 @@
+{% extends 'books/my_article.html' %}
+{% load my_markdown %}
+{% block articletitle %}{{ book.btitle }}{% endblock %}
+{% block articleconent %}
+    {{ book.bhtml|safe }}
+    <div class="menu-bottom">
+	    <a href="{% url 'books:edit_article' bookid %}">修改</a>
+	    <a href="{% url 'books:del_article' bookid %}">删除</a>
+	    {% if book.isrelease %}
+	    <a href="{% url 'books:change_rel_status' bookid %}">私密发布</a>
+	    {% else %}
+	    <a href="{% url 'books:change_rel_status' bookid %}">公开发布</a>
+	    {% endif %}
+    </div>
+{% endblock %}

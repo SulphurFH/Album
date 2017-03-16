@@ -1,0 +1,213 @@
+{% extends 'users/base.html' %}
+{% block title %}Album Papers{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+<link href="{% static 'css/edit_userinfo.css' %}" rel="stylesheet">
+<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+<script type="text/javascript">
+  window.onload = function(){
+    var oInputPassword = document.getElementById('new-password');
+    var oInputConfPassword = document.getElementById('confirm-password');
+    var oBtnChgPasswd = document.getElementById('change-password');
+
+    oBtnChgPasswd.onclick = function(){
+      if (oInputPassword.value != oInputConfPassword.value){
+        alert('新密码与确认密码不一致');
+      }
+    }
+  }
+
+  $(function(){
+    var $profile = $('#base-profile');
+    var $account = $('#account');
+    var $profilefrom = $('#public-profile-form');
+    var $accountfrom = $('#account-profile-form');
+
+    $profile.click(function(){
+      $profilefrom.addClass('active');
+      $accountfrom.removeClass('active');
+    })
+
+    $account.click(function(){
+      $accountfrom.addClass('active');
+      $profilefrom.removeClass('active');
+    })
+  })
+
+
+
+</script>
+{% endblock %}
+  <body>
+  {% block body %}
+  	{% block nav %}
+    <div class="navbar navbar-default navbar-fixed-top" id="navbar-fixed-top" >
+      <div class="container">
+        <div class="navbar-header">
+          <span class="navbar-brand">Hello！{{username}}</span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav" id="user-navbar-nav">
+          {% block navbar %}
+            <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
+            <li class="active"><a id="a-back" href="{% url 'users:userinfo' username %}">返回</a></li>
+          {% endblock %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+    <div class="main">
+      <div class="main-container">
+        <div class="col-3">
+          <div class="menu">
+            <h3 class="menu-heading">个人设置</h3>
+            <a href="#1" id="base-profile">基本信息</a>
+            <a href="#2" id="account">认证</a>
+          </div>
+        </div>
+        <div class="col-9">
+          <div class="subhead">
+            <h2 class="subhead-heading">个人资料</h2>
+          </div>
+          <form action="{% url 'users:update_userinfo' userinfo.pk %}" class="public-profile-form active" id="public-profile-form" method="POST">
+          {% csrf_token %}
+          <div class="public-profile">
+            <dl class="form-group clearfix">
+              <dt>
+                <span>用户名</span>
+              </dt>
+              <dd>
+                <input type="text" value="{{username}}" class="form-select" name="username" autofocus  autocomplete="off">
+              </dd>
+              {% if userNameExist %}<span class="user-name-exist">用户名已存在</span>{% else %}{% endif %}
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>性别</span>
+              </dt>
+              <dd>
+                {% if userinfo.gender %}
+                <select name="gender" id="" class="form-select">
+                  <option value="1">男</option>
+                  <option value="0">女</option>
+                </select>
+                {% else %}
+                <select name="gender" id="" class="form-select">
+                  <option value="0">女</option>
+                  <option value="1">男</option>
+                </select>
+                {% endif %}
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>邮箱</span>
+              </dt>
+              <dd class="form-group-dd">
+              {% if userinfo.ispublicemail %}
+                <select name="ispublicemail" id="" class="form-select">
+                  <option value="1">{{userinfo.email}}</option>
+                  <option value="0">不公开邮箱</option>
+                </select><br>
+                <span>选择是否公开你的邮箱(已公开)</span>
+              {% else %}
+                <select name="ispublicemail" id="" class="form-select">
+                  <option value="0">不公开邮箱</option>
+                  <option value="1">{{userinfo.email}}</option>
+                </select><br>
+                <span>选择是否公开你的邮箱(未公开)</span>
+              {% endif %}
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>关于你</span>
+              </dt>
+              <dd>
+                <textarea class="form-control" name="about" id="" cols="30" rows="10">{{userinfo.about}}</textarea>
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>URL</span>
+              </dt>
+              <dd>
+                <input type="text" value="{{userinfo.url}}" class="form-select" name="url" autocomplete="off">
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>公司</span>
+              </dt>
+              <dd>
+                <input type="text" value="{{userinfo.campany}}" class="form-select" name="campany" autocomplete="off">
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>地址</span>
+              </dt>
+              <dd>
+                <input type="text" value="{{userinfo.address}}" class="form-select" name="address" autocomplete="off">
+              </dd>
+            </dl>
+            <button type="submit" class="btn">修改个人资料</button>
+          </div>
+        </form>
+        <form action="{% url 'users:change_password' username %}" class="account-profile-form" method="POST" id="account-profile-form">
+        {% csrf_token %}
+          <div class="account-profile" >
+            <dl class="form-group clearfix">
+              <dt>
+                <span>原密码</span>
+              </dt>
+              <dd>
+                <input type="text" value="" class="form-select" name="old-password" autofocus  autocomplete="off">
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>新密码</span>
+              </dt>
+              <dd>
+                <input type="password" value="" class="form-select" name="new-password" autocomplete="off" id="new-password">
+              </dd>
+            </dl>
+            <dl class="form-group clearfix">
+              <dt>
+                <span>重新输入新密码</span>
+              </dt>
+              <dd>
+                <input type="password" value="" class="form-select" name="confirm-password" autocomplete="off" id="confirm-password">
+              </dd>
+            </dl>
+            <button type="submit" class="btn" id="change-password">修改密码</button>
+          </div>
+        </form>
+        <form action="{% url 'users:upload_avatar' username %}" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <div class="profile-picture">
+            <dl class="form-group clearfix">
+              <dt>
+                <span>用户头像</span>
+              </dt>
+              <dd>
+              {% if avatarExist %}
+                <img class="avatar" src="/static/media/avatar/{{username}}.jpg" alt="{{username}}头像">
+              {% else %}
+                <img class="avatar" src="/static/media/avatar/novavtar.jpg" alt="默认头像">
+              {% endif %}
+              </dd>
+            </dl>
+            <a href="">请选择头像
+            <input type="file" class="avatar-file-chooser" value="" name="pic">
+            </a>
+            <button type="submit" class="btn upload-avator" value="">上传</button>
+          </div> 
+        </form>
+        </div>
+      </div>
+    </div>
+  {% endblock %}

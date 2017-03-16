@@ -1,0 +1,217 @@
+body .main{
+  width: 100%;
+  height: 614px;
+  margin-top: 20px;
+}
+
+@media(max-width: 679px){
+  .main{
+    margin-top: -10px;
+  }
+}
+
+body .main .main-container{
+  margin: 0px auto;
+  padding: 0px;
+  width: 1012px;
+  height: inherit;
+}
+
+.main .container-left{
+  width: 245px;
+  height: 500px;
+  float: left;
+  padding-right: 16px;
+  display: inline-block;
+}
+
+@media(max-width: 679px){
+  .container-left {
+      height: 300px;
+  }
+}
+
+.main .container-left .mb-3{
+  width: inherit;
+  height: 21px;
+  float: left;
+  margin: 0px 0px 16px 0px;
+  padding: 0px;
+  
+}
+
+.mb-3 a{
+  font:normal 16px/21px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.main .container-left .vcard-avatar{
+  margin: 0px auto;
+  float: left;
+  width: 230px;
+  height: 230px;
+}
+
+@media(max-width: 679px){
+  .vcard-avatar{
+    display: none;
+  }
+}
+
+
+.main .container-left .vcard-names-container{
+  float: left;
+  width: 230px;
+  height: 56px;
+}
+
+.main .container-left .vcard-names-container .vcard-names{
+  padding: 0px;
+  margin: 0px;
+  height: inherit;
+  font:normal 22px/56px 'Microsoft Yahei';
+  color: #666;
+}
+
+.main .container-right{
+  width: 735px;
+  height: inherit;
+  float: right;
+  padding-left: 8px;
+}
+
+.container-left .btn-mb-3{
+  display: inline-block;
+  float: left;
+  border: 1px solid rgba(27,31,35,0.35);
+  width: 228px;
+  height: 34px;
+  background-color: #e6ebf1;
+  border-radius: 6px;
+  text-align: center;
+  color: #474d57;
+  text-decoration: none;
+  font:bold 16px/34px 'Microsoft Yahei';
+  margin-bottom: 16px;
+}
+
+.container-left .btn-mb-3:hover{
+  background-color: #ddd;
+}
+
+
+.container-left .vcard-details-gray-light{
+  float: left;
+  width: 229px;
+  height: 33px;
+  border-top: 1px #e1e4e8 solid;
+  border-bottom: 1px #e1e4e8 solid
+}
+
+
+.container-right .underline-nav{
+  widows: 592px;
+  height: 62px;
+  border-bottom: 1px solid #d1d5da;
+}
+
+.container-right .underline-nav .underline-nav-item{
+  display: inline-block;
+  border-bottom: 2px solid #e36209;
+  width: 102px;
+  height: 62px;
+  text-align: center;
+  
+}
+
+.container-right .underline-nav-item span{
+  height: 62px;
+  font: normal 16px/62px 'Microsoft Yahei';
+  color: #000;
+}
+
+
+.container-right .js-repo-filter{
+  width: 727px;
+  height: inherit;
+}
+
+.container-right .js-repo-filter .mt-4{
+  width: 727px;
+  height: inherit;
+  margin-top: 24px;
+}
+
+.container-right .js-repo-filter .mt-4 .js-pinned-repos-reorder-container{
+  width: 727px;
+  height: 503px;
+}
+
+.container-right .text-normal-h2{
+  width: 727px;
+  height: 24px;
+  margin: 0px 0px 8px 0px;
+  font: normal 16px/24px 'Microsoft Yahei';
+  color: #000;
+
+}
+
+.container-right .pinned-repos-list{
+  width: 727px;
+  height: 471px;
+  list-style: none;
+  padding: 0px;
+}
+
+
+.pinned-repos-list .pinned-repo-item{
+  display: inline-block;
+  width: 359px;
+  height: 141px;
+  padding: 16px;
+  border: 1px solid #d1d5da;
+  border-radius: 6px;
+  margin-bottom: 16px;
+  margin-right: 2px;
+}
+
+.pinned-repo-item .pinned-repo-item-content{
+  display: inline-block;
+  padding: 0px;
+  margin: 0px;
+  width: 325px;
+  height: 107px;
+}
+
+.pinned-repo-item-content .d-block{
+  padding: 0px;
+  margin: 0px;
+  width: 325px;
+  height: 21px;
+}
+
+.pinned-repo-item-content .d-block a{
+  font: bold 16px/21px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.d-block-text-gray{
+  width: 325px;
+  height: 18px;
+  padding: 0px;
+  margin: 0px 0px 8px 0px;
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #586069;
+}
+
+.d-block-text-gray a{
+  font: normal 12px/18px 'Microsoft Yahei';
+  color: #0366d6;
+}
+
+.pinned-repo-desc{
+  width: 325px;
+  height: 36px;
+  margin: 8px 0 16px 0px;
+  font: normal 12px/36px 'Microsoft Yahei';
+}

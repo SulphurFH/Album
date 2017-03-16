@@ -1,0 +1,80 @@
+{% extends 'users/base.html' %}
+{% block title %}Album Papers{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+<link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+<link href="{% static 'css/userinfo.css' %}" rel="stylesheet">
+{% endblock %}
+  <body>
+  {% block body %}
+  	{% block nav %}
+    <div class="navbar navbar-default navbar-fixed-top" id="navbar-fixed-top" >
+      <div class="container">
+        <div class="navbar-header">
+          <span class="navbar-brand">Hello！{{username}}</span>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav" id="user-navbar-nav">
+          {% block navbar %}
+            <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
+            <li class="active"><a href="{% url 'books:wirte_article' %}">写文章</a></li>
+            <li class="active"><a href="{% url 'books:my_article' %}">我的文章</a></li>
+            <li class="active"><a href="{%url 'users:logout'%}">退出</a></li>
+          {% endblock %}
+          </ul>
+        </div>
+      </div>
+    </div>
+    {% endblock %}
+    <div class="main">
+	    <div class="main-container">
+		    <div class="container-left">
+		    	<a href="{% url 'users:edit_userinfo' username %}" class="vcard-avatar">
+		    	{% if avatarExist %}
+		    		<img src="/static/media/avatar/{{username}}.jpg" alt="{{username}}头像" height="230" width="230">
+		    	{% else %}
+		    		<img src="/static/media/avatar/novavtar.jpg" alt="默认头像" height="230" width="230">
+		    	{% endif %}
+		    	</a>
+		    	<div class="vcard-names-container">
+		    		<h1 class="vcard-names">
+		    			<span>{{username}}</span>
+		    		</h1>
+		    	</div>
+		    	<p class="mb-3">
+		    		<a href="{% url 'users:about_user' username %}">关于你</a>
+		    	</p>
+		    	<a href="{% url 'users:edit_userinfo' username %}" class="btn-mb-3"><span>Edit profile</span></a>
+		    	<ul class="vcard-details-gray-light">
+		    	</ul>
+		    </div>
+		    <div class="container-right">
+		    	<nav class="underline-nav">
+		    		<a href="#" class="underline-nav-item"><span>Oveview</span></a>
+		    	</nav>
+		    	<div class="js-repo-filter">
+		    		<div class="mt-4">
+		    			<div class="js-pinned-repos-reorder-container">
+		    				<h2 class="text-normal-h2">最近的文章</h2>
+		    				<ol class="pinned-repos-list">
+		    				{% for book in bookinfo %}
+		    					<li class="pinned-repo-item">
+		    						<span class="pinned-repo-item-content">
+		    							<span class="d-block">
+		    								<a href="{%url 'books:detail' book.id %}">{{book.btitle|slice:"20"}}</a>
+		    							</span>
+		    							<p class="d-block-text-gray">Forked from <a href="{% url 'users:about_user' username %}">{{username}}</a></p>
+										<p class="pinned-repo-desc">{{book.bcontent|slice:"25"}}...</p>
+		    						</span>
+		    					</li>
+		    				{% endfor %}
+		    				</ol>
+		    			</div>
+		    		</div>
+		    	</div>
+		    </div>
+	    </div>
+    </div>
+    {% endblock %}
+  </body>
+
