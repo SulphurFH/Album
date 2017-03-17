@@ -16,4 +16,6 @@ urlpatterns = [
     url(r'^change_rel_status/([0-9]+)$',views.change_rel_status,name='change_rel_status'),
     url(r'^edit_article/([0-9]+)$',views.edit_article,name='edit_article'),
     url(r'^save_edit_article/([0-9]+)$',views.save_edit_article,name='save_edit_article'),
+    # url(r'^getbookinfo/$',views.getbookinfo,name='getbookinfo'),
+    # url(r'^test/$',views.test,name='test'),
 ]

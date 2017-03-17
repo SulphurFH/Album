@@ -38,9 +38,16 @@
     						</span>
     					</li>
     				{% empty %}
-    				<p>No results found.</p>
+    				<p>暂无搜索结果</p>
     				{% endfor %}
 				<ol>
+				{% if page.has_previous or page.has_next %}
+                <div class="paginator">
+                    {% if page.has_previous %}<a href="?q={{ query }}&amp;page={{ page.previous_page_number }}">{% endif %}&laquo; 上一页{% if page.has_previous %}</a>{% endif %}
+                    |
+                    {% if page.has_next %}<a href="?q={{ query }}&amp;page={{ page.next_page_number }}">{% endif %}下一页 &raquo;{% if page.has_next %}</a>{% endif %}
+                </div>
+            	{% endif %}
 			</div>
 		</div>
 	</div>

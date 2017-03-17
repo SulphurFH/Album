@@ -1,6 +1,7 @@
 import time
 import os
 from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
 # from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.shortcuts import render,redirect
@@ -19,7 +20,7 @@ def detail(request,id):
     else:
         signIn = False
 
-    bookslist = BookInfo.books.filter(isrelease=1).order_by('-bpub_date')
+    bookslist = BookInfo.books.filter(isrelease=1).order_by('-bpub_date')[0:50]
 
     book = BookInfo.books.filter(id=id)[0]
     bookname = book.btitle

@@ -1,5 +1,6 @@
 import os
 
+from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.core.urlresolvers import reverse
 # from django.views.decorators.csrf import csrf_exempt
@@ -15,7 +16,6 @@ from django.conf import settings
 
 # Create your views here.
 # 登录
-# @csrf_exempt
 def signin(request):
     return render(request, 'users/sign.html')
 
@@ -24,7 +24,6 @@ def register(request):
     return render(request, 'users/register.html')
 
 # 设置session
-# @csrf_exempt
 def login_handle(request):
     request.session['email'] = request.POST['email']
     request.session['passwd'] = request.POST['passwd']
@@ -36,6 +35,22 @@ def login_handle(request):
     request.session.set_expiry(0)
     return redirect(reverse('users:index'))
 
+# def islogin(request):
+#     if request.user.is_authenticated():
+#         username = request.session.get('username')
+#         avatarPath = settings.MEDIA_ROOT + '/avatar/' + username + '.jpg'
+#         if os.path.exists(avatarPath):
+#             address = '/static/media/avatar/'+ username +'.jpg'
+#             data = {'status': 1,'info': {'name': username,'avatar': address}}
+#         else:
+#             # data = {'status': 1,'info': {'name': username,'avatar': '/static/media/avatar/novavtar.jpg'}}
+#             data = {'status': 1, 'info': {'name': username, 'avatar': None}}
+#         return JsonResponse(data)
+#     else:
+#         # data = {'status':0,'info': {'name': None,'avatar':'/static/media/avatar/novavtar.jpg'}}
+#         data = {'status': 0, 'info': {'name': None, 'avatar': None}}
+#         return JsonResponse(data)
+
 # 退出清除session
 def logout(request):
     request.session.flush()
@@ -45,7 +60,7 @@ def logout(request):
 # 文章主页
 def index(request):
     # 获取所有文章
-    bookslist = BookInfo.books.filter(isrelease=1).order_by('-bpub_date')
+    bookslist = BookInfo.books.filter(isrelease=1).order_by('-bpub_date')[0:50]
     # 获取session中的邮箱地址和密码
     email = request.session.get('email')
     passwd = request.session.get('passwd')
@@ -56,8 +71,10 @@ def index(request):
         # 校验用户登录方式，分别展示PC或移动端页面
         if agent > 0:
             return render(request, 'books/first_page_modile.html', {'bookslist': bookslist, 'signIn': signIn})
+            # return render(request, 'books/first_page_modile.html', {'bookslist': bookslist})
         else:
             return render(request, 'books/first_page.html', {'bookslist': bookslist, 'signIn': signIn})
+            # return render(request, 'books/first_page.html', {'bookslist': bookslist})
     else:
         if not User.objects.filter(email=email):
             notExistEmail = True
@@ -77,6 +94,7 @@ def index(request):
                     if agent > 0:
                         return render(request, 'books/first_page_modile.html', {'bookslist': bookslist, 'signIn': signIn,
                                                                                 'username': username})
+                        # return render(request, 'books/first_page_modile.html',{'bookslist': bookslist,'username': username})
                     else:
                         avatarPath = settings.MEDIA_ROOT + '/avatar/' + username + '.jpg'
                         if os.path.exists(avatarPath):
@@ -85,6 +103,8 @@ def index(request):
                             avatarExist = False
                         return render(request, 'books/first_page.html', {'bookslist': bookslist, 'signIn': signIn,
                                                                          'username': username,'avatarExist':avatarExist})
+                        # return render(request, 'books/first_page.html', {'bookslist': bookslist,
+                        #                                                  'username': username,})
                 else:
                     notActive = True
                     return render(request, 'users/sign.html', {'notActive': notActive})

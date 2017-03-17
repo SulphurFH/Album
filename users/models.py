@@ -1,4 +1,5 @@
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 class UserInfoManager(models.Manager):
@@ -7,13 +8,14 @@ class UserInfoManager(models.Manager):
         user.username = username
         user.email = email
         user.gender = True
-        user.ispublicemail = True
+        user.ispublicemail = False
         user.campany = ''
         user.address = ''
         user.about = ''
         user.url = ''
         # user.pic = ''
-        user.avatar_address = ''
+        user.avatar_address = '/static/media/avatar/novavtar.jpg'
+        print(user.avatar_address)
         return user
 
 class UserInfo(models.Model):

@@ -88,7 +88,8 @@ a {
   background-repeat: no-repeat;
   background-size: 100px 100px;
   overflow: hidden;
-  display: block; }
+  display: block;
+}
   #avatar:hover {
     -webkit-animation: spin .35s linear infinite;
     -moz-animation: spin .35s linear infinite;

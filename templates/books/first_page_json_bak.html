@@ -3,23 +3,18 @@
 {% block content %}
   <div id="sidebar">
     <div id="tags">
-      {% if signIn %}
-        {% if avatarExist %}
-          <a href="{% url 'users:userinfo' username %}" id="avatar" style="background-image:url(/static/media/avatar/{{username}}.jpg)"></a>
-        {% else %}
-          <a href="{% url 'users:userinfo' username %}" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
-        {% endif %}
-      {% else %}
-      <a href="{% url 'users:signin' %}" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
-      {% endif %}
+
+      <a class="avatar_exist" href="" id="avatar" style="background-image:url(/static/media/avatar/{{username}}.jpg)"></a>
+      <a class="no_avatar" href="" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
+      <a class="notlogin" href="{% url 'users:signin' %}" id="avatar" style="background-image:url(/static/media/avatar/novavtar.jpg)"></a>
+
       <ul id="tags__ul">
       <li id="pl__all" class="tags__li tags-btn active"><a href="{% url 'users:index' %}">所有文章</a></li>
-      {% if signIn %}
+
       <li id="exit" class="tags__li tags-btn"><a href="{%url 'users:logout'%}">退出</a></li>
-      {% else %}
       <li id="login" class="tags__li tags-btn"><a href="{%url 'users:signin'%}">登录</a></li>
       <li id="register" class="tags__li tags-btn"><a href="{%url 'users:register'%}">注册</a></li>
-      {% endif %}
+
       </ul>
     </div>
     <div id="posts-list">
