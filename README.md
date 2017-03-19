@@ -41,5 +41,7 @@ DATABASES = {
 cd Album
 执行数据库同步命令
 python manage.py syncdb
+python manage.py makemigrations
+python manage.py migrate
 执行生成索引命令
 python manage.py rebuild_index
