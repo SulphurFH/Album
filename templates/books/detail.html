@@ -1,5 +1,4 @@
 {% extends 'books/first_page.html' %}
-{% load my_markdown %}
 {% block articletitle %}{{ bookname }}{% endblock %}
 {% block articleconent %}
     {{ bookhtml|safe }}

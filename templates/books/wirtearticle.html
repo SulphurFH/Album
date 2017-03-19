@@ -10,7 +10,85 @@
         <link rel="stylesheet" type="text/css" href="{% static 'css/wirte.css' %}">
         <script type="text/javascript" src="{% static 'js/showdown.min.js' %}"></script>
         <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
-        <script type="text/javascript" src="{% static 'js/wirtearticle.js' %}"></script>
+        <script type="text/javascript">
+            // 转换markdown格式展示
+            function markdown(){
+                    var text = $("#content").val();
+                    var converter = new showdown.Converter();
+                    var html = converter.makeHtml(text);
+                    $("#result").html(html);
+                }
+
+            $(function(){
+                var resultwh = $(document).height()-65;
+                var contentwh = $(document).height()-105;
+                var $oBtnSave = $('#save');
+                var $oBtnSubmit = $('#submit');
+                var $oForm = $('#form');
+                var $content = $('#content');
+                var $arttitle = $('#arttitle');
+
+
+                // 动态获取result这个div的高
+                $('#result').css('height',resultwh);
+                $('#content').css('height',contentwh);
+                $('.mask-info').click(function(){
+                            $('.pop').hide();
+                        });
+                $('#releasepop').click(function(){
+                            $('.releasepop').hide();
+                        });
+                $('#notitle').click(function(){
+                            $('.notitle').hide();
+                        });
+                $('#toolongtitle').click(function(){
+                            $('.toolongtitle').hide();
+                        });
+
+                // 重新设置按钮方法
+                $oBtnSave.click(function(){
+                    var hArray = window.location.href.split('/');
+                    var sLast = hArray[hArray.length-1];
+                    if (sLast == ''){
+                        $oForm.prop({'action':"/book/save_article/"});
+                    }
+                    else{
+                        href = "/book/save_article/" + sLast;
+                        $oForm.prop({'action':href});
+                    }
+                })
+
+                $oBtnSubmit.click(function(){
+                    var hArray = window.location.href.split('/');
+                    var sLast = hArray[hArray.length-1];
+                    $.ajax({
+                        url:'/book/release_article/'+sLast,
+                        dataType:'json',
+                        type:'POST',
+                        async:false,
+                        data:{
+                            content:$content.val(),
+                            arttitle:$arttitle.val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                        },
+                    })
+                    .done(function(dat){
+                        if(dat.status == 1){
+                            $('.releasepop').show();
+                        }
+                        else if(dat.status ==2){
+                            $('.notitle').show();
+                        }
+                        else if(dat.status ==3){
+                            $('.toolongtitle').show();
+                        }
+                    })
+                    .fail(function(){
+                        alert('服务器超时');
+                    })  
+                })
+            })
+        </script>
     </head>
     <body>
 
@@ -25,7 +103,7 @@
                       <ul class="nav navbar-nav">
                         <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
                         <li class="active"><button type="submit" id="save">保存</button></li>
-                        <li class="active"><button type="submit" id="submit">发布</button></li>
+                        <li class="active"><a id="submit">发布</a></li>
                         <li class="active"><a href="{% url 'books:my_article' %}">我的文章</a></li>
                         <li class="active"><a href="{% url 'users:userinfo' username %}">返回</a></li>
                       </ul>
@@ -54,6 +132,16 @@
         </div>
         {% endif %}
 
+        {% if isSave %}
+        <div class="pop">
+            <div class="mask">
+            </div>
+            <div class="mask-info">
+                <span class="mask-title">保存成功</span>
+            </div>
+        </div>
+        {% endif %}
+
         {% if longTitle %}
         <div class="pop">
             <div class="mask">
@@ -63,5 +151,30 @@
             </div>
         </div>
         {% endif %}
+
+        <div class="releasepop">
+            <div class="mask">
+            </div>
+            <div class="mask-info" id="releasepop">
+                <a class="mask-title" href="{% url 'users:userinfo' username %}">发布成功</a>
+            </div>
+        </div>
+
+        <div class="notitle">
+            <div class="mask">
+            </div>
+            <div class="mask-info" id="notitle">
+                <span class="mask-title">请输入标题</span>
+            </div>
+        </div>
+
+        <div class="toolongtitle">
+            <div class="mask">
+            </div>
+            <div class="mask-info" id="toolongtitle">
+                <span class="mask-title">标题不能超过40字符</span>
+            </div>
+        </div>
+
     </body>
 </html>

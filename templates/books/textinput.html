@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	{% load static from staticfiles %}
+	<script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+	<script type="text/javascript">
+		$(function(){
+			$.ajaxSetup({
+				data:{csrfmiddlewaretoken:'{{csrf_token}}'},
+			});
+			$('.submit').click(function(){
+
+				// $.post({
+				// 	url:'/book/inputreturn', #此处不能使用硬编码解析url，应该使用反向解析
+				// 	dateType:'json',
+				// 	type:'POST',
+				// 	beforeSend:function(xhr,settings){
+				// 		var csrftoken = $.cookie('csrftoken');
+				// 		xhr.setRequestHeader("X-CSRFToken",csrftoken);
+				// 	},
+				// 	data:{username:$('.username').val(),password:$('.password').val()},
+				// })
+
+				$.ajax({
+					url:'{% url "books:inputreturn" %}',
+					dateType:'json',
+					type:'POST',
+					data:{username:$('.username').val(),password:$('.password').val()},
+				})
+				.done(function(dat){
+					alert(dat.status);
+				})
+				.fail(function(){
+					alert('服务器超时');
+				})
+			})
+		})
+	</script>
+</head>
+<body>
+	<form action="" method="POST">
+	{% csrf_token %}
+		<input type="text" name="username" class="username">
+		<input type="text" name="password" class="password">
+		<input type="submit" class="submit">
+	</form>
+</body>
+</html>

@@ -27,8 +27,7 @@ def register(request):
 def login_handle(request):
     request.session['email'] = request.POST['email']
     request.session['passwd'] = request.POST['passwd']
-    # print(request)
-    # print(request.session.get('email'))
+
     # 设置session超时设定10s后过期
     # request.session.set_expiry(10)
     # 设置session超时设定关闭浏览器后过期

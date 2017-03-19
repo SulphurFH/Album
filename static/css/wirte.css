@@ -97,6 +97,10 @@ textarea{
     /*display: none;*/
 }
 
+.releasepop,.toolongtitle,.notitle{
+    display: none;
+}
+
 .mask{
     position: fixed;
     left: 0;
@@ -120,6 +124,7 @@ textarea{
     background-color: #474d57;
     border:1px solid #333;
     text-align: center;
+    cursor: pointer;
 }
 
 .mask-info:hover{
@@ -128,7 +133,16 @@ textarea{
     border-color: #333;
 }
 
-.mask-info span{
+
+.mask-title {
+    display: block;
     font:normal 18px/80px 'Microsoft Yahei';
     color: #ddd;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.mask-title:hover{
+    text-decoration: none;
 }

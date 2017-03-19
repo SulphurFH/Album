@@ -15,7 +15,6 @@ class UserInfoManager(models.Manager):
         user.url = ''
         # user.pic = ''
         user.avatar_address = '/static/media/avatar/novavtar.jpg'
-        print(user.avatar_address)
         return user
 
 class UserInfo(models.Model):

@@ -9,6 +9,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.conf import settings
 from markdown import markdown
 from books.models import BookInfo,UserInfo
+from django.http import HttpResponse
+# from django.template.context_processors import csrf
 
 
 #@login_required
@@ -49,7 +51,7 @@ def detail(request,id):
                    'signIn':signIn,'username':username,'authorname':authorname,'avatarExist':avatarExist})
 
 @login_required
-@csrf_exempt
+# @csrf_exempt
 def wirte_article(request):
     username = request.session.get('username')
     # 判断用户登录状态，agent>0不是电脑登录
@@ -61,7 +63,7 @@ def wirte_article(request):
 
 
 @login_required
-@csrf_exempt
+# @csrf_exempt
 def release_article(request,savebook=False):
     username = request.session.get('username')
     email = request.session.get('email')
@@ -75,16 +77,20 @@ def release_article(request,savebook=False):
             return render(request, 'books/wirtearticle_mobile.html',
                           {'username': username, 'noTitle': noTitle, 'text': text})
         else:
-            return render(request, 'books/wirtearticle.html',
-                          {'username': username, 'noTitle': noTitle, 'text': text})
+            # return render(request, 'books/wirtearticle.html',
+            #               {'username': username, 'noTitle': noTitle, 'text': text})
+            data = {'status': 2}
+            return JsonResponse(data)
     elif len(title) > 40:
         longTitle = True
         if agent > 0:
             return render(request, 'books/wirtearticle_mobile.html',
                           {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
         else:
-            return render(request, 'books/wirtearticle.html',
-                          {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+            # return render(request, 'books/wirtearticle.html',
+            #               {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+            data = {'status': 3}
+            return JsonResponse(data)
     else:
         # 文章内容渲染成html格式
         html = markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
@@ -96,7 +102,9 @@ def release_article(request,savebook=False):
             book.bhtml = html
             book.isrelease = True
             book.save()
-            return redirect(reverse('users:userinfo', args=(username,)))
+            # return redirect(reverse('users:userinfo', args=(username,)))
+            data = {'status': 1}
+            return JsonResponse(data)
         else:
             userid = UserInfo.users.filter(email=email)[0].id
 
@@ -105,11 +113,12 @@ def release_article(request,savebook=False):
                                                     time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()),
                                                     text, html, userid, True)
             createBook.save()
-            return redirect(reverse('users:userinfo', args=(username,)))
-
+            data = {'status': 1}
+            return JsonResponse(data)
+            # return redirect(reverse('users:userinfo', args=(username,)))
 
 @login_required
-@csrf_exempt
+# @csrf_exempt
 def save_article(request,savebook=False):
     username = request.session.get('username')
     email = request.session.get('email')
@@ -155,20 +164,21 @@ def save_article(request,savebook=False):
 
 
 @login_required
-@csrf_exempt
+# @csrf_exempt
 def continue_wirte(request,bookid):
     bookinfo = BookInfo.books.filter(pk=bookid)[0]
     username = bookinfo.bauthor
     title = bookinfo.btitle
     content = bookinfo.bcontent
+    isSave = True
 
     agent = request.META['HTTP_USER_AGENT'].lower().find('mobile')
     if agent > 0:
         return render(request, 'books/wirtearticle_mobile.html', {'bookid':bookid,'username': username,
-                                                                  'title':title,'content':content})
+                                                                  'title':title,'content':content,'isSave':isSave})
     else:
         return render(request, 'books/wirtearticle.html', {'bookid':bookid,'username': username,
-                                                           'title':title,'content':content})
+                                                           'title':title,'content':content,'isSave':isSave})
 
 # 个人文章首页
 @login_required
@@ -264,3 +274,15 @@ def save_edit_article(request,bookid):
             book.save()
 
             return redirect(reverse('books:my_article'))
+
+
+# AJAX POST提交验证
+# def textinput(request):
+#     return render(request,'books/textinput.html')
+#
+# # @csrf_exempt
+# def inputreturn(request):
+#     data = {'status':1}
+#     print(request.POST['username'])
+#     # return HttpResponse("表单测试成功")
+#     return JsonResponse(data)

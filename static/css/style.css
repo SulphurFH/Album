@@ -111,7 +111,7 @@ a {
   list-style: none; }
 
 .tags__li {
-  padding: 12px 35px 9px;
+  /*padding: 12px 35px 9px;*/
   border-top: 1px solid #525965;
   border-bottom: 1px solid #3c4149;
   cursor: pointer; }
@@ -147,6 +147,13 @@ a {
       border-right: 2px solid #fafafa;
       border-top: 2px solid #fafafa;
       border-radius: 0 6px 0 0; }
+
+.tags__li a{
+  display: block;
+  height: 48px;
+  text-align: center;
+  line-height: 48px;
+}
 
 #tags__bottom {
   width: 100%;
