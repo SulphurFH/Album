@@ -69,34 +69,39 @@ def release_article(request,savebook=False):
     email = request.session.get('email')
     text = request.POST['content']
     title = request.POST['arttitle']
+    isbookid = request.POST['bookid']
     agent = request.META['HTTP_USER_AGENT'].lower().find('mobile')
     # 校验文章标题不能为空
     if title is '':
-        noTitle = True
-        if agent > 0:
-            return render(request, 'books/wirtearticle_mobile.html',
-                          {'username': username, 'noTitle': noTitle, 'text': text})
-        else:
+        # noTitle = True
+        # if agent > 0:
+            # return render(request, 'books/wirtearticle_mobile.html',
+            #               {'username': username, 'noTitle': noTitle, 'text': text})
+        #     data = {'status': 2}
+        #     return JsonResponse(data)
+        # else:
             # return render(request, 'books/wirtearticle.html',
             #               {'username': username, 'noTitle': noTitle, 'text': text})
-            data = {'status': 2}
-            return JsonResponse(data)
+            # data = {'status': 2}
+            # return JsonResponse(data)
+        data = {'status': 2}
+        return JsonResponse(data)
     elif len(title) > 40:
-        longTitle = True
-        if agent > 0:
-            return render(request, 'books/wirtearticle_mobile.html',
-                          {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
-        else:
+        # longTitle = True
+        # if agent > 0:
+        #     return render(request, 'books/wirtearticle_mobile.html',
+        #                   {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+        # else:
             # return render(request, 'books/wirtearticle.html',
             #               {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
-            data = {'status': 3}
-            return JsonResponse(data)
+        data = {'status': 3}
+        return JsonResponse(data)
     else:
         # 文章内容渲染成html格式
         html = markdown(text, extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
 
-        if savebook:
-            book = BookInfo.books.filter(id=savebook)[0]
+        if isbookid:
+            book = BookInfo.books.filter(id=isbookid)[0]
             book.btitle = title
             book.bcontent = text
             book.bhtml = html
@@ -124,34 +129,41 @@ def save_article(request,savebook=False):
     email = request.session.get('email')
     text = request.POST['content']
     title = request.POST['arttitle']
+    isbookid = request.POST['bookid']
     agent = request.META['HTTP_USER_AGENT'].lower().find('mobile')
     if title is '':
-        noTitle = True
-        if agent > 0:
-            return render(request,'books/wirtearticle_mobile.html',
-                          {'username':username,'noTitle':noTitle,'text':text})
-        else:
-            return render(request, 'books/wirtearticle.html',
-                          {'username': username, 'noTitle': noTitle, 'text': text})
+        # noTitle = True
+        # if agent > 0:
+        #     return render(request,'books/wirtearticle_mobile.html',
+        #                   {'username':username,'noTitle':noTitle,'text':text})
+        # else:
+            # return render(request, 'books/wirtearticle.html',
+            #               {'username': username, 'noTitle': noTitle, 'text': text})
+        data = {'status': 2}
+        return JsonResponse(data)
     elif len(title) > 40:
-        longTitle = True
-        if agent > 0:
-            return render(request, 'books/wirtearticle_mobile.html',
-                          {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
-        else:
-            return render(request, 'books/wirtearticle.html',
-                          {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+        # longTitle = True
+        # if agent > 0:
+        #     return render(request, 'books/wirtearticle_mobile.html',
+        #                   {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+        # else:
+            # return render(request, 'books/wirtearticle.html',
+            #               {'username': username, 'longTitle': longTitle, 'text': text,'title':title})
+        data = {'status': 3}
+        return JsonResponse(data)
     else:
         #文章内容渲染成html格式
         html = markdown(text,extensions=['markdown.extensions.extra', 'markdown.extensions.codehilite'])
 
-        if savebook:
-            book = BookInfo.books.filter(id=savebook)[0]
+        if isbookid:
+            book = BookInfo.books.filter(id=isbookid)[0]
             book.btitle = title
             book.bcontent = text
             book.bhtml = html
             book.save()
-            return redirect(reverse('books:continue_wirte', args=(savebook,)))
+            # return redirect(reverse('books:continue_wirte', args=(savebook,)))
+            data = {'status': 1, 'bookid': isbookid}
+            return JsonResponse(data)
         else:
             userid = UserInfo.users.filter(email=email)[0].id
 
@@ -160,8 +172,9 @@ def save_article(request,savebook=False):
                                                     text,html,userid,False)
             createBook.save()
             bookid = createBook.pk
-            return redirect(reverse('books:continue_wirte',args=(bookid,)))
-
+            # return redirect(reverse('books:continue_wirte',args=(bookid,)))
+            data = {'status': 1, 'bookid':bookid}
+            return JsonResponse(data)
 
 @login_required
 # @csrf_exempt

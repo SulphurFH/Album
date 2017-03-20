@@ -20,14 +20,11 @@
                 }
 
             $(function(){
-                var resultwh = $(document).height()-65;
-                var contentwh = $(document).height()-105;
-                var $oBtnSave = $('#save');
-                var $oBtnSubmit = $('#submit');
-                var $oForm = $('#form');
-                var $content = $('#content');
-                var $arttitle = $('#arttitle');
-
+                var resultwh = $(document).height()-65,contentwh = $(document).height()-105;
+                var $oBtnSave = $('#save'),$oBtnSubmit = $('#submit'),$oForm = $('#form'),$content = $('#content'),$arttitle = $('#arttitle');
+                var hArray = window.location.href.split('/');
+                var sLast = hArray[hArray.length-1];
+                var bookid = null;                
 
                 // 动态获取result这个div的高
                 $('#result').css('height',resultwh);
@@ -44,34 +41,86 @@
                 $('#toolongtitle').click(function(){
                             $('.toolongtitle').hide();
                         });
+                $('#savepop').click(function(){
+                            $('.savepop').hide();
+                        });
 
-                // 重新设置按钮方法
-                $oBtnSave.click(function(){
-                    var hArray = window.location.href.split('/');
-                    var sLast = hArray[hArray.length-1];
-                    if (sLast == ''){
-                        $oForm.prop({'action':"/book/save_article/"});
-                    }
-                    else{
-                        href = "/book/save_article/" + sLast;
-                        $oForm.prop({'action':href});
-                    }
-                })
-
-                $oBtnSubmit.click(function(){
-                    var hArray = window.location.href.split('/');
-                    var sLast = hArray[hArray.length-1];
+                // click事件发送发布POST
+                function submitArticle(bookid){
+                    var defer = $.Deferred();
                     $.ajax({
-                        url:'/book/release_article/'+sLast,
+                        url:'/book/release_article/',
                         dataType:'json',
                         type:'POST',
-                        async:false,
                         data:{
                             content:$content.val(),
                             arttitle:$arttitle.val(),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}'
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            bookid:bookid,
                         },
                     })
+                    .done(function(dat){
+                        defer.resolve(dat);
+                    })
+                    return defer;
+                }
+
+                // click事件发送发布POST
+                function saveArticle(bookid){
+                    var defer = $.Deferred();
+                    $.ajax({
+                        url:'/book/save_article/',
+                        dataType:'json',
+                        type:'POST',
+                        data:{
+                            content:$content.val(),
+                            arttitle:$arttitle.val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            bookid:bookid,
+                        },
+                    })
+                    .done(function(dat){
+                        defer.resolve(dat);
+                    })
+                    return defer;
+                }
+
+                // 重新设置按钮方法
+                $oBtnSave.click(function(){
+                    if ($arttitle.val() == ''){
+                        $('.notitle').show();
+                        return;
+                    }
+                    if ($arttitle.val().length > 40){
+                        $('.toolongtitle').show();
+                        return;
+                    };
+                    $.when(saveArticle(bookid))
+                    .done(function(dat){
+                        if(dat.status == 1){
+                            bookid = dat.bookid
+                            $('.savepop').show();
+                        }
+                        else if(dat.status ==2){
+                            $('.notitle').show();
+                        }
+                        else if(dat.status ==3){
+                            $('.toolongtitle').show();
+                        }
+                    })
+                })
+
+                // 发布按钮
+                $oBtnSubmit.click(function(){
+                    if ($arttitle.val() == ''){
+                        $('.notitle').show();
+                        return;
+                    }
+                    if ($arttitle.val().length > 40){
+                        $('.toolongtitle').show();
+                        return;
+                    };
+                    $.when(submitArticle(bookid))
                     .done(function(dat){
                         if(dat.status == 1){
                             $('.releasepop').show();
@@ -85,7 +134,7 @@
                     })
                     .fail(function(){
                         alert('服务器超时');
-                    })  
+                    })
                 })
             })
         </script>
@@ -102,7 +151,7 @@
                     <div id="navbar" class="navbar-collapse collapse">
                       <ul class="nav navbar-nav">
                         <li class="active"><a href="{% url 'users:index' %}">Discover</a></li>
-                        <li class="active"><button type="submit" id="save">保存</button></li>
+                        <li class="active"><a id="save">保存</a></li>
                         <li class="active"><a id="submit">发布</a></li>
                         <li class="active"><a href="{% url 'books:my_article' %}">我的文章</a></li>
                         <li class="active"><a href="{% url 'users:userinfo' username %}">返回</a></li>
@@ -121,36 +170,13 @@
                     <div class="resultarea" id="result"></div> 
             </div>
         </form>
-
-        {% if noTitle %}
-        <div class="pop">
+        <div class="savepop">
             <div class="mask">
             </div>
-            <div class="mask-info">
-                <span class="mask-title">请输入标题</span>
-            </div>
-        </div>
-        {% endif %}
-
-        {% if isSave %}
-        <div class="pop">
-            <div class="mask">
-            </div>
-            <div class="mask-info">
+            <div class="mask-info" id="savepop">
                 <span class="mask-title">保存成功</span>
             </div>
         </div>
-        {% endif %}
-
-        {% if longTitle %}
-        <div class="pop">
-            <div class="mask">
-            </div>
-            <div class="mask-info">
-                <span class="mask-title">标题不能超过40字符</span>
-            </div>
-        </div>
-        {% endif %}
 
         <div class="releasepop">
             <div class="mask">

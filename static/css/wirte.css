@@ -97,7 +97,7 @@ textarea{
     /*display: none;*/
 }
 
-.releasepop,.toolongtitle,.notitle{
+.releasepop,.toolongtitle,.notitle,.savepop{
     display: none;
 }
 
@@ -145,4 +145,8 @@ textarea{
 
 .mask-title:hover{
     text-decoration: none;
+}
+
+.active a{
+    cursor: pointer;
 }
