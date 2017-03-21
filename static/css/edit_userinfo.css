@@ -54,13 +54,17 @@
 .menu a{
 	text-decoration: none;
 	display: block;
-    font-weight: 600;
+    font-weight: normal;
     color: #0366d6;
     background-color: #fff;
     padding: 8px 10px;
     border-left: 1px solid #e1e4e8;
     border-right: 1px solid #e1e4e8;
     border-bottom: 1px solid #e1e4e8;
+}
+
+.menu .menu-a-active{
+    font-weight: bold;
 }
 
 .col-9{
@@ -185,6 +189,7 @@
     border: 1px solid rgba(27,31,35,0.2);
     border-radius: 0.25em;
     background-color: #e6ebf1;
+    color: #333;
 }
 
 .btn:hover{
@@ -226,8 +231,9 @@
 }
 
 .profile-picture a:hover{
-	background-color: #e6ebf1;
+	/*background-color: #e6ebf1;*/
     border-color: rgba(27,31,35,0.35);
+    background-color: #ddd;
 }
 
 .upload-avator{
@@ -245,6 +251,55 @@
 }
 
 
+.pwdnotsame,.loginout,.wrongpasswd,.notusername,.updateprofile,.exitusername{
+    display: none;
+}
+
+.mask{
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: #000;
+    opacity: 0.5;
+    z-index: 9998;
+}
+
+.mask-info{
+    position: fixed;
+    width: 200px;
+    height: 80px;
+    top: 50%;
+    left: 50%;
+    margin-left: -100px;
+    margin-top: -40px;
+    z-index: 9999;
+    background-color: #474d57;
+    border:1px solid #333;
+    text-align: center;
+    cursor: pointer;
+}
+
+.mask-info:hover{
+    color: #fff;
+    background-color: #333;
+    border-color: #333;
+}
+
+
+.mask-title {
+    display: block;
+    font:normal 18px/80px 'Microsoft Yahei';
+    color: #ddd;
+    cursor: pointer;
+    width: 100%;
+    height: 100%;
+}
+
+.mask-title:hover{
+    text-decoration: none;
+}
 
 
 

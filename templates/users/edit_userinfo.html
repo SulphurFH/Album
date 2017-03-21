@@ -6,23 +6,115 @@
 <link href="{% static 'css/edit_userinfo.css' %}" rel="stylesheet">
 <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
 <script type="text/javascript">
-  window.onload = function(){
-    var oInputPassword = document.getElementById('new-password');
-    var oInputConfPassword = document.getElementById('confirm-password');
-    var oBtnChgPasswd = document.getElementById('change-password');
-
-    oBtnChgPasswd.onclick = function(){
-      if (oInputPassword.value != oInputConfPassword.value){
-        alert('新密码与确认密码不一致');
-      }
-    }
-  }
-
   $(function(){
-    var $profile = $('#base-profile');
-    var $account = $('#account');
-    var $profilefrom = $('#public-profile-form');
-    var $accountfrom = $('#account-profile-form');
+    var $profile = $('#base-profile'),$account = $('#account'),$profilefrom = $('#public-profile-form'),$accountfrom = $('#account-profile-form');
+    var $oNewPassword = $('#new-password'),$oConfPassword = $('#confirm-password'),$oOldPassword = $('#old-password');
+    var $BtnChgPasswd = $('#change-password');
+    var $BtnUpdProfile = $('#update-profile');
+
+    $('#pwdnotsame').click(function(){
+      $('.pwdnotsame').hide();
+    });
+    $('#loginout').click(function(){
+      $('.loginout').hide();
+    });
+    $('#wrongpasswd').click(function(){
+      $('.wrongpasswd').hide();
+    });
+    $('#notusername').click(function(){
+      $('.notusername').hide();
+    });
+    $('#updateprofile').click(function(){
+      $('.updateprofile').hide();
+    });
+    $('#exitusername').click(function(){
+      $('.exitusername').hide();
+    });
+
+    function fnChangePasswd(){
+      var defer = $.Deferred();
+      $.ajax({
+        url:'{% url "users:change_password" username %}',
+        dataType:'json',
+        type:'POST',
+        data:{
+            oldpassword:$oOldPassword.val(),
+            newpassword:$oNewPassword.val(),
+            confpassword:$oConfPassword.val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+      })
+      .done(function(dat){
+        defer.resolve(dat);
+      })
+      return defer;
+    }
+
+    function fnUpdateProfile(){
+      var defer = $.Deferred();
+      $.ajax({
+        url:'{% url "users:update_userinfo" userinfo.pk %}',
+        dataType:'json',
+        type:'POST',
+        data:{
+            newusername:$('#username').val(),
+            gender:$('#gender').val(),
+            ispublicemail:$('#ispublicemail').val(),
+            about:$('#about').val(),
+            url:$('#url').val(),
+            campany:$('#campany').val(),
+            address:$('#address').val(),
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
+        },
+      })
+      .done(function(dat){
+        defer.resolve(dat);
+      })
+      return defer;
+    }
+
+    $BtnChgPasswd.click(function(){
+      if ($oNewPassword.val() != $oConfPassword.val()){
+        $('.pwdnotsame').show();
+        return;
+      }
+      $.when(fnChangePasswd())
+      .done(function(dat){
+        if(dat.status == 1){
+          $('.loginout').show();
+        }
+        else if(dat.status == 2){
+          $('.wrongpasswd').show();
+        }
+        else if(dat.status == 3){
+          $('.pwdnotsame').show();
+        }
+      });
+    })
+
+    $BtnUpdProfile.click(function(){
+      if($('#username').val() == ''){
+        $('.notusername').show();
+        return;
+      }
+      $.when(fnUpdateProfile())
+      .done(function(dat){
+        if(dat.status == 1){
+          $('#updateprofile a').prop({href:'/user/edit_userinfo/'+dat.username});
+          $('.updateprofile').show();
+        }
+        else if(dat.status == 2){
+          $('.notusername').show();
+        }
+        else if(dat.status == 3){
+          $('.exitusername').show();
+        }
+      });
+    })    
+
+    $('.menu a').click(function(){
+      $(this).addClass('menu-a-active').siblings().removeClass('menu-a-active');
+    })
 
     $profile.click(function(){
       $profilefrom.addClass('active');
@@ -33,10 +125,8 @@
       $accountfrom.addClass('active');
       $profilefrom.removeClass('active');
     })
-  })
-
-
-
+    
+  });
 </script>
 {% endblock %}
   <body>
@@ -63,7 +153,7 @@
         <div class="col-3">
           <div class="menu">
             <h3 class="menu-heading">个人设置</h3>
-            <a href="#1" id="base-profile">基本信息</a>
+            <a href="#1" id="base-profile" class="menu-a-active">基本信息</a>
             <a href="#2" id="account">认证</a>
           </div>
         </div>
@@ -79,7 +169,7 @@
                 <span>用户名</span>
               </dt>
               <dd>
-                <input type="text" value="{{username}}" class="form-select" name="username" autofocus  autocomplete="off">
+                <input type="text" value="{{username}}" class="form-select" name="username" id="username" autofocus  autocomplete="off">
               </dd>
               {% if userNameExist %}<span class="user-name-exist">用户名已存在</span>{% else %}{% endif %}
             </dl>
@@ -89,12 +179,12 @@
               </dt>
               <dd>
                 {% if userinfo.gender %}
-                <select name="gender" id="" class="form-select">
+                <select name="gender" id="gender" class="form-select">
                   <option value="1">男</option>
                   <option value="0">女</option>
                 </select>
                 {% else %}
-                <select name="gender" id="" class="form-select">
+                <select name="gender" id="gender" class="form-select">
                   <option value="0">女</option>
                   <option value="1">男</option>
                 </select>
@@ -107,13 +197,13 @@
               </dt>
               <dd class="form-group-dd">
               {% if userinfo.ispublicemail %}
-                <select name="ispublicemail" id="" class="form-select">
+                <select name="ispublicemail" id="ispublicemail" class="form-select">
                   <option value="1">{{userinfo.email}}</option>
                   <option value="0">不公开邮箱</option>
                 </select><br>
                 <span>选择是否公开你的邮箱(已公开)</span>
               {% else %}
-                <select name="ispublicemail" id="" class="form-select">
+                <select name="ispublicemail" id="ispublicemail" class="form-select">
                   <option value="0">不公开邮箱</option>
                   <option value="1">{{userinfo.email}}</option>
                 </select><br>
@@ -126,7 +216,7 @@
                 <span>关于你</span>
               </dt>
               <dd>
-                <textarea class="form-control" name="about" id="" cols="30" rows="10">{{userinfo.about}}</textarea>
+                <textarea class="form-control" name="about" id="about" cols="30" rows="10">{{userinfo.about}}</textarea>
               </dd>
             </dl>
             <dl class="form-group clearfix">
@@ -134,7 +224,7 @@
                 <span>URL</span>
               </dt>
               <dd>
-                <input type="text" value="{{userinfo.url}}" class="form-select" name="url" autocomplete="off">
+                <input type="text" value="{{userinfo.url}}" class="form-select" name="url" id="url" autocomplete="off">
               </dd>
             </dl>
             <dl class="form-group clearfix">
@@ -142,7 +232,7 @@
                 <span>公司</span>
               </dt>
               <dd>
-                <input type="text" value="{{userinfo.campany}}" class="form-select" name="campany" autocomplete="off">
+                <input type="text" value="{{userinfo.campany}}" class="form-select" name="campany" id="campany" autocomplete="off">
               </dd>
             </dl>
             <dl class="form-group clearfix">
@@ -150,13 +240,13 @@
                 <span>地址</span>
               </dt>
               <dd>
-                <input type="text" value="{{userinfo.address}}" class="form-select" name="address" autocomplete="off">
+                <input type="text" value="{{userinfo.address}}" class="form-select" name="address" id="address" autocomplete="off">
               </dd>
             </dl>
-            <button type="submit" class="btn">修改个人资料</button>
+            <a type="submit" class="btn" id="update-profile">修改个人资料</a>
           </div>
         </form>
-        <form action="{% url 'users:change_password' username %}" class="account-profile-form" method="POST" id="account-profile-form">
+        <form action="" class="account-profile-form" method="POST" id="account-profile-form">
         {% csrf_token %}
           <div class="account-profile" >
             <dl class="form-group clearfix">
@@ -164,7 +254,7 @@
                 <span>原密码</span>
               </dt>
               <dd>
-                <input type="text" value="" class="form-select" name="old-password" autofocus  autocomplete="off">
+                <input type="text" value="" class="form-select" name="old-password" autofocus  autocomplete="off" id="old-password">
               </dd>
             </dl>
             <dl class="form-group clearfix">
@@ -183,7 +273,7 @@
                 <input type="password" value="" class="form-select" name="confirm-password" autocomplete="off" id="confirm-password">
               </dd>
             </dl>
-            <button type="submit" class="btn" id="change-password">修改密码</button>
+            <a type="submit" class="btn" id="change-password">修改密码</a>
           </div>
         </form>
         <form action="{% url 'users:upload_avatar' username %}" method="POST" enctype="multipart/form-data">
@@ -208,6 +298,54 @@
           </div> 
         </form>
         </div>
+      </div>
+    </div>
+
+    <div class="notusername">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="notusername">
+          <span class="mask-title">用户名不能为空</span>
+      </div>
+    </div>
+
+    <div class="exitusername">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="exitusername">
+          <span class="mask-title">用户名已存在</span>
+      </div>
+    </div>
+
+    <div class="updateprofile">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="updateprofile">
+          <a href="" class="mask-title">个人信息修改成功</a>
+      </div>
+    </div>
+
+    <div class="pwdnotsame">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="pwdnotsame">
+          <span class="mask-title">两次密码不一致</span>
+      </div>
+    </div>
+
+    <div class="wrongpasswd">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="wrongpasswd">
+          <span class="mask-title">原密码不正确</span>
+      </div>
+    </div>
+
+    <div class="loginout">
+      <div class="mask">
+      </div>
+      <div class="mask-info" id="loginout">
+          <a href="{% url 'users:logout' %}" class="mask-title">修改成功，请重新登录</a>
       </div>
     </div>
   {% endblock %}

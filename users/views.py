@@ -93,7 +93,6 @@ def index(request):
                     if agent > 0:
                         return render(request, 'books/first_page_modile.html', {'bookslist': bookslist, 'signIn': signIn,
                                                                                 'username': username})
-                        # return render(request, 'books/first_page_modile.html',{'bookslist': bookslist,'username': username})
                     else:
                         avatarPath = settings.MEDIA_ROOT + '/avatar/' + username + '.jpg'
                         if os.path.exists(avatarPath):
@@ -102,8 +101,6 @@ def index(request):
                             avatarExist = False
                         return render(request, 'books/first_page.html', {'bookslist': bookslist, 'signIn': signIn,
                                                                          'username': username,'avatarExist':avatarExist})
-                        # return render(request, 'books/first_page.html', {'bookslist': bookslist,
-                        #                                                  'username': username,})
                 else:
                     notActive = True
                     return render(request, 'users/sign.html', {'notActive': notActive})
@@ -195,8 +192,7 @@ def edit_userinfo(request,username):
 
 @login_required
 def update_userinfo(request,userid):
-    email = request.session.get('email')
-    new_username = request.POST['username']
+    new_username = request.POST['newusername']
     old_username = User.objects.filter(email=request.session.get('email'))[0].username
     userAuth = User.objects.filter(username=new_username)
 
@@ -237,7 +233,8 @@ def update_userinfo(request,userid):
         userinfo.address,userinfo.avatar_address = new_username,gender,ispublicemail,about,url,campany,address,avatar_address
         userinfo.save()
 
-        return redirect(reverse('users:edit_userinfo',args=(new_username,)))
+        data = {'status': 1,'username':new_username}
+        return JsonResponse(data)
     elif len(userAuth) == 1 and new_username == old_username:
         userinfo = UserInfo.users.filter(id=userid)[0]
 
@@ -246,22 +243,20 @@ def update_userinfo(request,userid):
         userinfo.address = gender, ispublicemail, about, url, campany, address
         userinfo.save()
 
-        return redirect(reverse('users:edit_userinfo', args=(new_username,)))
+        data = {'status': 1, 'username': new_username}
+        return JsonResponse(data)
     else:
-        userNameExist = True
-        return render(request, 'users/edit_userinfo.html',
-                      {'username': new_username, 'email': email, 'about': about, 'url': url,
-                       'campany': campany, 'address': address, 'userid': userid,
-                       'ispublicemail': ispublicemail, 'gender': gender,'userNameExist':userNameExist})
+        data = {'status':3}
+        return JsonResponse(data)
 
 @login_required
 def change_password(request,username):
     user = User.objects.get(username=username)
     user_password = user.password
     # 获取POST表单内密码
-    old_password = request.POST['old-password']
-    new_password = request.POST['new-password']
-    confirm_password = request.POST['confirm-password']
+    old_password = request.POST['oldpassword']
+    new_password = request.POST['newpassword']
+    confirm_password = request.POST['confpassword']
 
     if new_password == confirm_password:
         # 验证原密码是否正确
@@ -269,12 +264,15 @@ def change_password(request,username):
         if passwdCorrect:
             user.set_password(new_password)
             user.save()
-
             # 更新完密码后登出刷新sessions
-            return redirect(reverse('users:logout'))
+            data = {'status':1}
+            return JsonResponse(data)
+        else:
+            data = {'status':2}
+            return JsonResponse(data)
     else:
-        return redirect(reverse('users:edit_userinfo', args=(username,)))
-
+        data = {'status': 3}
+        return JsonResponse(data)
 @login_required
 def upload_avatar(request,username):
     if request.method == "POST":
