@@ -42,7 +42,6 @@ INSTALLED_APPS = (
     'haystack',
     'books',
     'users',
-    #'books.templatetags.my_markdown',
 )
 
 

@@ -71,8 +71,17 @@ body {
   margin: 0 auto;
 }
 .form-signin .form-signin-heading,
-.form-signin .checkbox {
+.form-signin .checkbox,{
   margin-bottom: 10px;
+}
+
+.check_message{
+  margin-top: -5px;
+  margin-bottom: 5px;
+}
+
+.form-signin .check_message{
+  display: none;
 }
 
 .form-signin .title .form-signin-heading{
@@ -115,7 +124,6 @@ body {
 }
 
 .form-signin input[type="confirmpasswd"] {
-  /*margin-bottom: 10px;*/
   border-radius: 0px;
 }
 
@@ -131,7 +139,7 @@ body {
 }
 
 .form-signin .title{
-  padding-bottom: 50px;
+  padding-bottom: 40px;
 }
 
 .register-title{

@@ -24,5 +24,4 @@ urlpatterns = [
     url(r'^user/', include('users.urls', namespace='users')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^search/', include('haystack.urls')),
-    # url(r'^accounts/logout/$', logout),
 ]

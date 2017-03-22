@@ -1,6 +1,44 @@
 {% extends 'users/base.html' %}
 {% block title %}登录{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+  <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+  <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+  <script type="text/javascript">
+    $(function(){
+      var error_email = false;
 
+      $('#email').blur(function(){
+        $.when(fnSiginEmail())
+        .done(function(dat){
+            if(dat.status == 1){
+                $('#email').next().children().html('此账户不存在');
+                $('#email').next().show();
+            }
+        });
+      });
+
+      function fnSiginEmail(){
+        var defer = $.Deferred();
+        $.ajax({
+          url:'/user/registerEmail/',
+          dataType:'json',
+          type:'POST',
+          data:{
+              email:$('#email').val(),
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+          },
+        })
+        .done(function(dat){
+            defer.resolve(dat);
+        })
+        return defer;
+      }
+
+    })
+  </script>
+{% endblock %}
 {% block content %}
     <div class="container">
       <form class="form-signin" action="{%url 'users:login_handle'%}" method="POST">{% csrf_token %}
@@ -21,8 +59,11 @@
         <h3>注册成功</h3>
         {% endif %}
       </div>
-        <input type="username" id="inputEmail" class="form-control" name="email" placeholder="请输入邮箱地址" required autofocus>
-        <input type="password" id="inputPassword" class="form-control" name="passwd" placeholder="请输入密码" required>
+        <input type="username" id="email" class="form-control" name="email" placeholder="请输入邮箱地址" required autofocus>
+        <div class="check_message">
+          <span>提示信息</span>
+        </div>
+        <input type="password" id="password" class="form-control" name="passwd" placeholder="请输入密码" required>
         <div class="checkbox">
           <label class="hrefRegister">
           	<a href="{%url 'users:register'%}">没有账号？</a>
@@ -30,6 +71,5 @@
         </div>
         <button class="btn btn-lg btn-primary btn-block" type="submit">登录</button>
       </form>
-
-    </div> <!-- /container -->
+    </div>
 {% endblock %}

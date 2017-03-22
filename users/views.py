@@ -3,12 +3,9 @@ import os
 from django.http import JsonResponse
 from django.shortcuts import render,redirect
 from django.core.urlresolvers import reverse
-# from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from users.models import UserInfo
 from books.models import BookInfo
-# from hashlib import sha1
-# from redis_db.RedisHelper import RedisHelper
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login
 from django.contrib.auth.hashers import check_password
@@ -34,22 +31,6 @@ def login_handle(request):
     request.session.set_expiry(0)
     return redirect(reverse('users:index'))
 
-# def islogin(request):
-#     if request.user.is_authenticated():
-#         username = request.session.get('username')
-#         avatarPath = settings.MEDIA_ROOT + '/avatar/' + username + '.jpg'
-#         if os.path.exists(avatarPath):
-#             address = '/static/media/avatar/'+ username +'.jpg'
-#             data = {'status': 1,'info': {'name': username,'avatar': address}}
-#         else:
-#             # data = {'status': 1,'info': {'name': username,'avatar': '/static/media/avatar/novavtar.jpg'}}
-#             data = {'status': 1, 'info': {'name': username, 'avatar': None}}
-#         return JsonResponse(data)
-#     else:
-#         # data = {'status':0,'info': {'name': None,'avatar':'/static/media/avatar/novavtar.jpg'}}
-#         data = {'status': 0, 'info': {'name': None, 'avatar': None}}
-#         return JsonResponse(data)
-
 # 退出清除session
 def logout(request):
     request.session.flush()
@@ -70,10 +51,8 @@ def index(request):
         # 校验用户登录方式，分别展示PC或移动端页面
         if agent > 0:
             return render(request, 'books/first_page_modile.html', {'bookslist': bookslist, 'signIn': signIn})
-            # return render(request, 'books/first_page_modile.html', {'bookslist': bookslist})
         else:
             return render(request, 'books/first_page.html', {'bookslist': bookslist, 'signIn': signIn})
-            # return render(request, 'books/first_page.html', {'bookslist': bookslist})
     else:
         if not User.objects.filter(email=email):
             notExistEmail = True
@@ -108,6 +87,26 @@ def index(request):
                 worngPasswd = True
                 return render(request, 'users/sign.html', {'worngPasswd': worngPasswd})
 
+# 判断用户名是否存在并返回json给前台，status:3(存在)，status:1(不存在)
+def registerName(request):
+    username = request.POST['username']
+    if User.objects.filter(username=username):
+        data = {'status':3}
+        return JsonResponse(data)
+    else:
+        data = {'status':1}
+        return JsonResponse(data)
+
+# 判断邮箱是否存在并返回json给前台，status:3(存在)，status:1(不存在)
+def registerEmail(request):
+    email = request.POST['email']
+    if User.objects.filter(email=email):
+        data = {'status':3}
+        return JsonResponse(data)
+    else:
+        data = {'status':1}
+        return JsonResponse(data)
+
 # 注册状态验证
 def status(request):
     username = request.POST['username']
@@ -115,6 +114,7 @@ def status(request):
     passwd = request.POST['passwd']
     confirmpasswd = request.POST['confirmpasswd']
 
+    # 后台再次校验，防止异常数据存入数据库产生异常
     if username is '':
         userNotNull = True
         return render(request,'users/register.html',{'userNotNull':userNotNull})
@@ -125,14 +125,7 @@ def status(request):
         emailNotNull = True
         return render(request, 'users/register.html', {'emailNotNull': emailNotNull})
     else:
-
-        if User.objects.filter(username=username):
-                isuserexist = True
-                return render(request,'users/register.html',{'isuserexist':isuserexist,'username':username})
-        elif User.objects.filter(email=email):
-                isemailexist = True
-                return render(request, 'users/register.html', {'isemailexist': isemailexist, 'email': email})
-        elif passwd == confirmpasswd:
+        if passwd == confirmpasswd:
 
             # 用户认证信息存入User
             user = User.objects.create_user(username, email, passwd)
@@ -141,11 +134,6 @@ def status(request):
             # 用户信息存入UserInfo
             userinfo = UserInfo.users.create_userinfo(username,email)
             userinfo.save()
-
-            # redis缓存 django中用户登录认证的session和cookie还需要再确认再添加至redis
-            # shapwd = User.objects.filter(username=username)[0].password
-            # redis_userdata = RedisHelper('192.168.100.128', 6379)
-            # redis_userdata.set(email, shapwd)
 
             registersucess = True
             return render(request, 'users/sign.html',{'registersucess':registersucess})
@@ -273,6 +261,7 @@ def change_password(request,username):
     else:
         data = {'status': 3}
         return JsonResponse(data)
+        
 @login_required
 def upload_avatar(request,username):
     if request.method == "POST":

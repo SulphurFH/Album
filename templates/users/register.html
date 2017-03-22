@@ -1,6 +1,199 @@
 {% extends 'users/base.html' %}
 {% block title %}注册{% endblock %}
+{% load static from staticfiles %}
+{% block css %}
+  <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
+  <link href="{% static 'css/signin.css' %}" rel="stylesheet">
+  <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
+  <script type="text/javascript">
+    $(function(){
 
+      var error_name = false;
+      var error_email = false;
+      var error_password = false;
+      var error_check_password = false;
+      
+      $('#user_name').blur(function(){
+        fnCheckUserName();
+        $.when(fnNameExist())
+        .done(function(dat){
+            if(dat.status == 3){
+                $('#user_name').next().children().html('用户名已存在');
+                $('#user_name').next().show();
+            }
+        });
+      });
+      $('#user_name').focus(function(){
+        $('#user_name').next().hide();
+      });
+
+      $('#email').blur(function(){
+        fnCheckEmail();
+        $.when(fnEmailExist())
+        .done(function(dat){
+            if(dat.status == 3){
+                $('#email').next().children().html('邮箱已存在');
+                $('#email').next().show();
+            }
+        });
+      });
+      $('#email').focus(function(){
+        $('#email').next().hide();
+      });
+
+      $('#pwd').blur(function(){
+        fnCheckPasswd();
+      });
+      $('#pwd').focus(function(){
+        $('#pwd').next().hide();
+      });
+
+      $('#cpwd').blur(function(){
+        fnCheckConPasswd();
+      });
+      $('#cpwd').focus(function(){
+        $('#cpwd').next().hide();
+      });
+
+      function fnCheckUserName(){
+        var reg = /^\w{1,30}$/;
+        var username = $('#user_name').val();
+
+        if (username == ''){
+          $('#user_name').next().children().html('请输入用户名');
+          $('#user_name').next().show();
+          error_name = true;
+          return;
+        }
+
+        if(reg.test(username)){
+          $('#user_name').next().hide();
+          error_name = false;
+        }
+        else{
+          $('#user_name').next().children().html('用户名为30位字符以内的数字或者字母');
+          $('#user_name').next().show();
+          error_name = true;
+        }
+      }
+
+      function fnCheckEmail(){
+        var reg = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/;
+        var email = $('#email').val();
+        if (email == ''){
+          $('#email').next().children().html('请输入Email');
+          $('#email').next().show();
+          error_email = true;
+          return;
+        }
+
+        if (reg.test(email)){
+          $('#email').next().hide();
+          error_email = false;
+        }
+        else{
+          $('#email').next().children().html('请输入正确的Email地址');
+          $('#email').next().show();
+          error_email = true;
+        }
+      }
+
+      function fnCheckPasswd(){
+        var reg = /^[\w@!#$%&^*()-+=]{6,128}$/;
+        var pwd = $('#pwd').val();
+        if (pwd == ''){
+          $('#pwd').next().children().html('请输入密码');
+          $('#pwd').next().show();
+          error_password = true;
+          return;
+        }
+
+        if (reg.test(pwd)){
+          $('#pwd').next().hide();
+          error_password = false;
+        }
+        else{
+          $('#pwd').next().children().html('密码至少为6位');
+          $('#pwd').next().show();
+          error_password = true;
+        }
+      }
+
+      function fnCheckConPasswd(){
+        var pwd = $('#pwd').val();
+        var conpasswd = $('#cpwd').val();
+        if (conpasswd == ''){
+          $('#cpwd').next().children().html('请输入确认密码');
+          $('#cpwd').next().show();
+          error_check_password = true;
+          return;
+        }
+
+        if (pwd != conpasswd){
+          $('#cpwd').next().children().html('两次密码输入不一致');
+          $('#cpwd').next().show();
+          error_check_password = false;
+        }
+        else{
+          $('#cpwd').next().hide();
+          error_check_password = true;
+        }
+      }
+
+      function fnNameExist(){
+        var defer = $.Deferred();
+        $.ajax({
+          url:'/user/registerName/',
+          dataType:'json',
+          type:'POST',
+          data:{
+              username:$('#user_name').val(),
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+          },
+        })
+        .done(function(dat){
+            defer.resolve(dat);
+        })
+        return defer;
+      }
+
+      function fnEmailExist(){
+        var defer = $.Deferred();
+        $.ajax({
+          url:'/user/registerEmail/',
+          dataType:'json',
+          type:'POST',
+          data:{
+              email:$('#email').val(),
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+          },
+        })
+        .done(function(dat){
+            defer.resolve(dat);
+        })
+        return defer;
+      }
+
+      $('#btnsubmit').submit(function(){
+        fnCheckUserName()
+        fnCheckEmail()
+        fnCheckPasswd()
+        fnCheckConPasswd()
+
+        if(error_name == false && error_email == false && error_password == false && error_check_password == false){
+          alert('可以发送了');
+          return true;
+        }
+        else{
+          alert('不可以发送');
+          return false;
+        }
+
+      });
+
+    })
+  </script>
+{% endblock %}
 {% block content %}
     <div class="container">
       <form class="form-signin" action="{%url 'users:status'%}" method="POST">
@@ -31,14 +224,26 @@
           <h4>注册成功</h4>
           {% endif %}
         </div>
-          <input type="username" id="inputUser" class="form-control" name="username" placeholder="请输入用户名" autofocus>
-        	<input type="email" id="inputEmail" class="form-control" name="email" placeholder="请输入注册邮箱地址">
-       		<input type="password" id="inputPassword" class="form-control" name="passwd" placeholder="请输入密码">
-        	<input type="password" id="inputPassword" class="form-control" name="confirmpasswd" placeholder="请重新输入密码">
+          <input type="username" id="user_name" class="form-control" name="username" placeholder="请输入用户名" autofocus>
+          <div class="check_message">
+            <span>提示信息</span>
+          </div>
+        	<input type="username" id="email" class="form-control" name="email" placeholder="请输入注册邮箱地址">
+          <div class="check_message">
+            <span>提示信息</span>
+          </div>
+       		<input type="password" id="pwd" class="form-control" name="passwd" placeholder="请输入密码">
+          <div class="check_message">
+            <span>提示信息</span>
+          </div>
+        	<input type="password" id="cpwd" class="form-control" name="confirmpasswd" placeholder="请重新输入密码">
+          <div class="check_message">
+            <span>提示信息</span>
+          </div>
         <div class="checkbox">
           <a href="{%url 'users:signin'%}">返回</a>
         </div>
-        <button class="btn btn-lg btn-primary btn-block" type="submit">注册</button>
+        <button class="btn btn-lg btn-primary btn-block" type="submit" id="btnsubmit">注册</button>
       </form>
     </div> <!-- /container -->
 {% endblock %}
