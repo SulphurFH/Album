@@ -7,21 +7,8 @@
   <script type="text/javascript" src="{% static 'js/jquery-1.12.4.min.js' %}"></script>
   <script type="text/javascript">
     $(function(){
-      var error_email = false;
-
       $('#email').blur(function(){
-        $.when(fnSiginEmail())
-        .done(function(dat){
-            if(dat.status == 1){
-                $('#email').next().children().html('此账户不存在');
-                $('#email').next().show();
-            }
-        });
-      });
-
-      function fnSiginEmail(){
-        var defer = $.Deferred();
-        $.ajax({
+        $.post({
           url:'/user/registerEmail/',
           dataType:'json',
           type:'POST',
@@ -31,11 +18,12 @@
           },
         })
         .done(function(dat){
-            defer.resolve(dat);
-        })
-        return defer;
-      }
-
+            if(dat.status == 1){
+                $('#email').next().children().html('此账户不存在');
+                $('#email').next().show();
+            }
+        });
+      });
     })
   </script>
 {% endblock %}

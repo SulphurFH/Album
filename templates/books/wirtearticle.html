@@ -45,30 +45,17 @@
                             $('.savepop').hide();
                         });
 
-                // click事件发送发布POST
-                function submitArticle(bookid){
-                    var defer = $.Deferred();
-                    $.ajax({
-                        url:'/book/release_article/',
-                        dataType:'json',
-                        type:'POST',
-                        data:{
-                            content:$content.val(),
-                            arttitle:$arttitle.val(),
-                            'csrfmiddlewaretoken': '{{ csrf_token }}',
-                            bookid:bookid,
-                        },
-                    })
-                    .done(function(dat){
-                        defer.resolve(dat);
-                    })
-                    return defer;
-                }
-
-                // click事件发送发布POST
-                function saveArticle(bookid){
-                    var defer = $.Deferred();
-                    $.ajax({
+                // 保存按钮
+                $oBtnSave.click(function(){
+                    if ($arttitle.val() == ''){
+                        $('.notitle').show();
+                        return;
+                    }
+                    if ($arttitle.val().length > 40){
+                        $('.toolongtitle').show();
+                        return;
+                    };
+                    $.post({
                         url:'/book/save_article/',
                         dataType:'json',
                         type:'POST',
@@ -80,23 +67,6 @@
                         },
                     })
                     .done(function(dat){
-                        defer.resolve(dat);
-                    })
-                    return defer;
-                }
-
-                // 重新设置按钮方法
-                $oBtnSave.click(function(){
-                    if ($arttitle.val() == ''){
-                        $('.notitle').show();
-                        return;
-                    }
-                    if ($arttitle.val().length > 40){
-                        $('.toolongtitle').show();
-                        return;
-                    };
-                    $.when(saveArticle(bookid))
-                    .done(function(dat){
                         if(dat.status == 1){
                             bookid = dat.bookid
                             $('.savepop').show();
@@ -107,6 +77,9 @@
                         else if(dat.status ==3){
                             $('.toolongtitle').show();
                         }
+                    })
+                    .fail(function(){
+                        alter('连接超时');
                     })
                 })
 
@@ -120,7 +93,17 @@
                         $('.toolongtitle').show();
                         return;
                     };
-                    $.when(submitArticle(bookid))
+                    $.post({
+                        url:'/book/release_article/',
+                        dataType:'json',
+                        type:'POST',
+                        data:{
+                            content:$content.val(),
+                            arttitle:$arttitle.val(),
+                            'csrfmiddlewaretoken': '{{ csrf_token }}',
+                            bookid:bookid,
+                        },
+                    })
                     .done(function(dat){
                         if(dat.status == 1){
                             $('.releasepop').show();

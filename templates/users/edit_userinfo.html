@@ -31,9 +31,12 @@
       $('.exitusername').hide();
     });
 
-    function fnChangePasswd(){
-      var defer = $.Deferred();
-      $.ajax({
+    $BtnChgPasswd.click(function(){
+      if ($oNewPassword.val() != $oConfPassword.val()){
+        $('.pwdnotsame').show();
+        return;
+      }
+      $.post({
         url:'{% url "users:change_password" username %}',
         dataType:'json',
         type:'POST',
@@ -45,14 +48,24 @@
         },
       })
       .done(function(dat){
-        defer.resolve(dat);
-      })
-      return defer;
-    }
+        if(dat.status == 1){
+          $('.loginout').show();
+        }
+        else if(dat.status == 2){
+          $('.wrongpasswd').show();
+        }
+        else if(dat.status == 3){
+          $('.pwdnotsame').show();
+        }
+      });
+    });
 
-    function fnUpdateProfile(){
-      var defer = $.Deferred();
-      $.ajax({
+    $BtnUpdProfile.click(function(){
+      if($('#username').val() == ''){
+        $('.notusername').show();
+        return;
+      }
+      $.post({
         url:'{% url "users:update_userinfo" userinfo.pk %}',
         dataType:'json',
         type:'POST',
@@ -68,37 +81,6 @@
         },
       })
       .done(function(dat){
-        defer.resolve(dat);
-      })
-      return defer;
-    }
-
-    $BtnChgPasswd.click(function(){
-      if ($oNewPassword.val() != $oConfPassword.val()){
-        $('.pwdnotsame').show();
-        return;
-      }
-      $.when(fnChangePasswd())
-      .done(function(dat){
-        if(dat.status == 1){
-          $('.loginout').show();
-        }
-        else if(dat.status == 2){
-          $('.wrongpasswd').show();
-        }
-        else if(dat.status == 3){
-          $('.pwdnotsame').show();
-        }
-      });
-    })
-
-    $BtnUpdProfile.click(function(){
-      if($('#username').val() == ''){
-        $('.notusername').show();
-        return;
-      }
-      $.when(fnUpdateProfile())
-      .done(function(dat){
         if(dat.status == 1){
           $('#updateprofile a').prop({href:'/user/edit_userinfo/'+dat.username});
           $('.updateprofile').show();
@@ -109,8 +91,9 @@
         else if(dat.status == 3){
           $('.exitusername').show();
         }
-      });
-    })    
+      })
+    });
+
 
     $('.menu a').click(function(){
       $(this).addClass('menu-a-active').siblings().removeClass('menu-a-active');

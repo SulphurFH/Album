@@ -27,7 +27,6 @@ SECRET_KEY = 'ls42)j0^d3ai$bqwgqm1j4snew1kwgd!=*y6&9h_=+7zs!b@t7'
 # DEBUG不设置为True，需要为ALLOWED_HOSTS添加host信息
 DEBUG = True
 
-#ALLOWED_HOSTS = ['192.168.12.23']
 ALLOWED_HOSTS = []
 
 # Application definition
@@ -97,10 +96,10 @@ WSGI_APPLICATION = 'album_papers.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'database',
-        'USER': 'username',
-        'PASSWORD': 'password',
-        'HOST': 'ip',
+        'NAME': ‘databasename’,
+        'USER': ‘username’,
+        'PASSWORD': ‘password’,
+        'HOST': ‘ip’,
         'PORT': '3306',
     }
 }
